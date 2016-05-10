@@ -1,0 +1,1 @@
+[08-May-2016 07:31:31 America/Denver] PHP Parse error:  syntax error, unexpected 'class' (T_CLASS), expecting identifier (T_STRING) or variable (T_VARIABLE) or '{' or '$' in /home2/nichepha/public_html/tacit/unity/index.php on line 50
