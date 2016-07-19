@@ -12,11 +12,23 @@
 */
 
 
-    Route::get('/', function () {
-    	return view('welcome');
+//Temporary Disable it
+  Route::get('/', function () {
+    	return "";
 	});
 
 	Route::auth();
 
-	Route::get('/home', 'HomeController@index');
-	
+//Temporary Disabled
+	//Route::get('/home', 'HomeController@index');
+
+//Evaluations Routes
+  Route::get('/evals/{company}/{uid}', 'EvalController@index');
+  Route::get('/eval/{company}/{sid}', 'EvalController@getEval');
+
+  //Plan Routes
+    Route::get('/plan/{company}', 'PlanController@index');
+    Route::get('/plan/user-plan/{company}/{uid}', 'PlanController@plan');
+
+//Insights Routes
+  Route::get('/insights/accumulative-details/{company}/{uid}', 'InsightsController@getAccumlativeDetails');

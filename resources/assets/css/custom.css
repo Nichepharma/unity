@@ -1,0 +1,208 @@
+.form-errors ul {
+    padding-left: 5px;
+    text-align: left;
+}
+
+.topuserpart .blue {
+    vertical-align: baseline;
+}
+
+.topuserpart {
+    padding: 0px;
+    margin: 0px;
+}
+
+.menu a:hover, .menu li.current a {
+    background: #28c9e2 !important;
+}
+
+.menu a {
+    background: #f1f1f1;
+}
+
+.menu li:nth-child(odd) a {
+    background: #e5e5e5;
+}
+
+@media only screen and (min-width: 1300px) {
+
+    .menu a {
+        padding: 10px 25px;
+        border-radius: 0px !important;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        /*margin-left: -10px;*/
+    }
+
+}
+
+.subMenu {
+    background: #28cae3;
+    min-height: 10px;
+    padding: 10px 0 0 0 !important;
+    color: #000000;
+}
+
+.graphContainer {
+    width: 800px;
+    height: 450px;
+    margin: 10px auto;
+}
+
+.graphTitle {
+    margin: 5px auto;
+}
+
+.graphContainer > div {
+    height: 400px;;
+}
+
+.myTable tbody tr:nth-child(even) td,
+.myTable tbody tr:nth-child(even) th {
+    background: #fcf8e3;
+}
+
+.submenubuttons {
+    text-transform: uppercase;
+}
+
+.inner-links {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+}
+
+.inner-links > div a {
+    text-decoration: none;
+}
+
+.inner-links > div {
+    margin-bottom: 15px;
+}
+
+.inner-head-table th {
+    text-align: center;
+}
+
+.inner-head-table td, .inner-head-table th {
+    padding: 5px;
+    border: solid 1px #cccccc;
+    min-width: 33px;
+    height: 33px;;
+}
+
+table th {
+    text-transform: capitalize;
+}
+
+.buttonallsite3{
+    display: block;
+}
+.buttonallsite3.active {
+    background-color: #2b93a6;
+    color: #fff;
+}
+
+ol.customers_plan {
+    padding: 0px 0px 0px 18px;
+    list-style-type: decimal;
+}
+
+ol.customers_plan li {
+    padding: 7px 0px 7px 3px;
+    margin-bottom: 10px;
+}
+
+.loader-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(255, 255, 255, .4) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   loader-modal element will be visible */
+body.loading .loader-modal {
+    display: block;
+}
+
+.page-content1 {
+    margin: 0px;
+}
+
+.top-user-menu {
+    float: left;
+    margin-top: 30px;
+}
+
+.chosen-container-single .chosen-single {
+    background: #fffde8 !important;
+}
+
+.chosen-container-single .chosen-single {
+    padding: 5px 8px 5px 8px !important;
+    height: 33px !important;
+    border-radius: 3px !important;
+}
+
+.chosen-container-active.chosen-with-drop .chosen-single div b {
+    background-position: -18px 7px !important;
+}
+
+.chosen-container-single .chosen-single div b {
+    background-position: -5px 5px !important;
+
+}
+
+.chosen-container-single .chosen-single abbr {
+    top: 11px !important;
+}
+
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+    top: 3px !important;
+    right: 3px !important;
+    width: 16px !important;
+}
+
+@media (max-width: 767px) {
+    .chosen-container {
+        margin: 0 0 10px 14px;
+    }
+
+}
+
+.maxH300 {
+    /*max-height: 300px;*/
+    /*overflow: auto;*/
+}
+
+.form-left-side{
+    border-right: 1px solid #9a9a9a;
+}
+.form-right-side{
+    border-left: 1px solid #9a9a9a;
+    border-collapse: collapse;
+}
+.modal-body h3{
+    margin-top: 0px;
+}
+.callspart2 .callspart2cell2{
+    min-height: 30px;
+}
+.callspart .middpart:nth-child(even){
+    background: #e7e7e7;
+}
+
+.print-show{
+    display: none;
+}

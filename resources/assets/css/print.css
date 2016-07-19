@@ -1,0 +1,23 @@
+body .leftpart, .submenubg, .mainmenubg, .glyphicon, .subMenu, .top-user-menu{
+    display: none;
+}
+
+#printsection, #printsection *, .printsections {
+    display: block;
+}
+
+#noprintsection {
+    display: none;
+}
+
+a[href]:after {
+    content: none !important;
+}
+
+.buttonallsite3:not(.active){
+    display: none;
+}
+
+.print-show{
+    display: block;
+}

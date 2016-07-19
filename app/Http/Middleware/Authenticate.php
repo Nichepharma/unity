@@ -25,6 +25,13 @@ class Authenticate
             }
         }
 
+        //Company Authontication
+        $AuthCompany = Auth::user()->company;
+        if ($request->is("*/{$AuthCompany}/*") == false && $request->is("*/{$AuthCompany}") == false){
+          return "You're Nor Authorized To Visit Any Page Not Related To Your Company";
+        }
+
+
         return $next($request);
     }
 }

@@ -1,0 +1,554 @@
+.menu a {
+    font-family: neosansregular;
+    font-size: 15px;
+    color: #828282;
+    font-weight: normal;
+    display: block;
+    text-decoration: none;
+    padding-top: 17px;
+    padding-left: 51px;
+    text-align: left;
+    background: url(../images/menu-bg.png) no-repeat center center;
+    position: relative;
+    /*width: 192px;*/
+    /*height: 46px;*/
+    margin-top: 8px;
+    background-size: cover !important;
+}
+
+.menu a.last {
+    border-right: 0px solid #acacac;
+}
+
+/**/
+.menu span a {
+    background: url(../images/menu-spanbg.png) no-repeat center center;
+}
+
+.menu a:hover { /* layer fill content */
+    background: url(../images/menu-hoverbg.png) no-repeat;
+    color: #fff;
+}
+
+.menu {
+    list-style: none;
+    font-family: arial;
+    font-size: 17px;
+    color: #000;
+    font-weight: normal;
+    bottom: 0px;
+    margin: 0px 0px 18px 0px;
+    vertical-align: bottom;
+    padding: 0px 0px 0px 0px;
+}
+
+.menu li {
+    position: relative;
+    float: left;
+    display: inline;
+    font-family: arial;
+}
+
+.menu li.home a {
+    background-image: url('../menu-hoverbg.png');
+}
+
+.menu li.current a {
+    background-position: top;
+    color: #ffffff;
+    background: url(../images/menu-hoverbg.png) no-repeat;
+}
+
+.menu li a:hover {
+    background-position: bottom;
+}
+
+.menu li.current a:hover {
+    background-position: top; /*To Prevent the Current tab from changing colour on hover*/
+    color: #ffffff;
+}
+
+.menu li.current {
+    z-index: 100;
+}
+
+.menu li.home {
+    z-index: 100;
+}
+
+.menu li.insights {
+    z-index: 99;
+}
+
+.menu li.plan {
+    z-index: 98;
+}
+
+.menu li.kpi {
+    z-index: 97;
+}
+
+.menu li.applications {
+    z-index: 90;
+}
+
+.menu li.customer {
+    z-index: 96;
+}
+
+.menu li.home:hover {
+    z-index: 1000;
+}
+
+.menu li.insights:hover {
+    z-index: 1000;
+}
+
+.menu li.plan:hover {
+    z-index: 1000;
+}
+
+.menu li.kpi:hover {
+    z-index: 1000;
+}
+
+.menu li.applications:hover {
+    z-index: 1000;
+}
+
+.menu li.customer:hover {
+    z-index: 1000;
+}
+
+/*.menu li.last{width:35px;}*/
+
+.menu ul {
+    display: none;
+    position: absolute;
+    font: normal 13px Arial, Verdana;
+    top: 47px;
+    left: 0px;
+    list-style: none;
+    border: 0px solid #888;
+    background: #555;
+    padding: 0px;
+    color: #333333;
+    line-height: 18px;
+    font-size: 13px;
+    font-family: Arial;
+    border-radius: 0 0 6px 6px;
+    box-shadow: inset 0px 0px 100px rgba(0, 0, 0, 0.9);
+    width: 178px;
+    /*	height: 100%;
+    border-radius:5px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -khtml-border-radius:5px;
+    -pie-border-radius:5px;
+    box-shadow: 0px 1px 5px #111111;*/
+}
+
+.menu ul li {
+    float: none;
+    border-top: 0px solid #ccc;
+    position: relative;
+    padding: 0px 0px 0px 0px;
+    background-image: url(../images/submenubg.png);
+    background-position: bottom;
+    background-repeat: repeat-x;
+    margin: 0px 0px 0px 0px;
+}
+
+.menu ul li.last {
+    background: none;
+}
+
+.menu ul li a, li.menuhover li a, li.menuhover li.menuhover li a {
+    font-family: "Arial Rounded MT Bold";
+    font-size: 12px;
+    font-weight: normal;
+    float: none;
+    display: block;
+    background: none;
+    padding-top: 0px;
+    text-align: left;
+    padding: 10px 0px 10px 10px;
+    color: #fff;
+    margin: 0px 0px 0px 0px;
+    width: auto;
+    border-right: 0px solid #df3c47;
+    border-bottom: 1px solid #4c4c4c;
+    border-radius: 0px;
+}
+
+.menu ul li a:hover, li.menuhover li a:hover, li.menuhover li.menuhover li a:hover {
+    color: #fff;
+    background: #656565;
+    text-align: left;
+    padding: 10px 0px 10px 10px;
+    margin: 0px 0px 0px 0px;
+    font-weight: normal;
+    border-right: 0px solid #df3c47;
+    border-radius: 0px;
+}
+
+.menu ul li a.last {
+    border-bottom: 0px solid #4c4c4c;
+}
+
+.menu ul li span, li.menuhover li span, li.menuhover li.menuhover li span {
+    float: none;
+    display: block;
+    background: none;
+    padding: 0px 0px 0px 0px;
+}
+
+.menu ul ul {
+    left: 153px;
+    top: 0px;
+    display: none;
+    position: absolute;
+    font: normal 14px Arial, Verdana;
+    list-style: none;
+    padding: 0px 0px 0px 0px;
+    z-index: 80;
+    width: 168px;
+    background-color: #e3703f;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -khtml-border-radius: 5px;
+    -pie-border-radius: 5px;
+    box-shadow: 0px 1px 5px #111111;
+    clear: both;
+}
+
+.menu ul ul li {
+    float: none;
+    border-top: 0px solid #ccc;
+    position: relative;
+    padding: 0px 0px 10px 0px;
+    background-image: url(../images/submenubg.png);
+    background-position: bottom;
+    background-repeat: repeat-x;
+    margin: 0px 6px 0px 5px;
+}
+
+.menu ul ul li a, li.menuhover li li a, li.menuhover li.menuhover li li a {
+    font-family: arial;
+    font-size: 13px;
+    font-weight: normal;
+    float: none;
+    display: block;
+    background: none;
+    padding-top: 0px;
+    text-align: left;
+    padding: 5px 0px 0px 10px;
+    color: #ffffff;
+    margin: 0px 0px 0px 0px;
+}
+
+.menu ul ul li a:hover, li.menuhover li li a:hover, li.menuhover li.menuhover li li a:hover {
+    color: #f4f4f4;
+    background: none;
+    text-align: left;
+    padding: 5px 0px 0px 10px;
+    margin: 0px 0px 0px 0px;
+}
+
+.menu li.submenu {
+    font-weight: bold;
+    display: block;
+    padding: 0px 0px 0px 0px;
+}
+
+.menu li.noborder {
+    border-top: none
+}
+
+li.menuhover a {
+    padding: 5px 14px 5px 14px;
+    text-align: center;
+    margin: 7px 3px 0px 3px; /*width:125px;*/
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px; /* border radius */
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box; /* prevents bg color from leaking outside the border */
+    background-color: #000; /* layer fill content */
+    color: #fff;
+}
+
+li.menuhover li.menuhover a, li.menuhover li.menuhover li.menuhover a {
+    padding: 5px 14px 5px 14px;
+    text-align: center;
+    margin: 7px 3px 0px 3px;
+
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px; /* border radius */
+    -moz-background-clip: padding;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box; /* prevents bg color from leaking outside the border */
+    background-color: #000; /* layer fill content */
+    color: #fff;
+}
+
+li.menuhover span, li.menuhover li.menuhover span {
+    color: #fff;
+    background: #0047a4;
+    padding: 0px 0px 0px 0px;
+}
+
+@media only screen and (min-width: 1300px) {
+    .menu a {
+        /*width: 168px !important;*/
+        /*height: 43px !important;*/
+    }
+
+}
+
+@media only screen and (min-width: 993px) and (max-width: 1300px) {
+    .menu a {
+        width: 132px !important;
+        height: 33px !important;
+        margin-top: 8px;
+        padding-top: 9px !important;
+        padding-left: 20px !important;
+    }
+
+    .menu {
+        margin: 0px 0px 49px 0px !important;
+    }
+
+}
+
+/*@media only screen and (min-width: 768px) and (max-width: 992px)
+{
+.menu a {
+    width: 153px !important;
+    height: 36px !important;
+    margin-top: 5px;
+   
+    padding-top: 9px !important;
+    padding-left: 24px !important;
+}
+
+.menu {
+    margin: 0px 0px 49px 0px !important;
+}
+}*/
+
+@media only screen and (max-width: 991px) {
+
+    .enaplemenu {
+        display: block !important;
+    }
+
+    .mainmenubg-mob {
+        background: url(../images/mainmenubg.png) no-repeat left;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border-radius: 10px; /* border radius */
+        -moz-background-clip: padding;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box; /* prevents bg color from leaking outside the border */
+        background-color: #fff; /* layer fill content */
+        -moz-box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+        -webkit-box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+        box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0iaGF0MCIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giIHgxPSI1MCUiIHkxPSIxMDAlIiB4Mj0iNTAlIiB5Mj0iLTEuNDIxMDg1NDcxNTIwMmUtMTQlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2M4YzhjOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgIDwvbGluZWFyR3JhZGllbnQ+Cgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNoYXQwKSIgLz4KPC9zdmc+); /* gradient overlay */
+        background-image: -moz-linear-gradient(bottom, #fff 0%, #c8c8c8 100%); /* gradient overlay */
+        background-image: -o-linear-gradient(bottom, #fff 0%, #c8c8c8 100%); /* gradient overlay */
+        background-image: -webkit-linear-gradient(bottom, #fff 0%, #c8c8c8 100%); /* gradient overlay */
+        background-image: linear-gradient(bottom, #fff 0%, #c8c8c8 100%); /* gradient overlay */
+        -moz-box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+        -webkit-box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+        box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+    }
+
+    .menu_mob_btn {
+        background: url(../images/menu_mob_bg.png) no-repeat center;
+        width: 55px;
+        height: 36px;
+        display: block;
+        cursor: pointer;
+        float: left;
+        margin: 0px 0px -37px 0px;
+        z-index: 1000000000000000000;
+        position: absolute;
+    }
+
+    .menu {
+        width: 40%;
+        float: left;
+        left: 100px;
+        display: none;
+        position: absolute;
+        top: 0px;
+    }
+
+    .menu ul {
+        top: 0px !important;
+        left: 100% !important;
+        box-shadow: 0px 0px 0px #111111 !important;
+        background: #555 !important;
+        position: absolute;
+        /*height:100%;*/
+        width: 93% !important;
+    }
+
+    .menu ul li {
+        background: #555 !important;
+    }
+
+    .menu li {
+        width: 100%;
+        padding: 0px 0px;
+        background: #E5E5E5;
+    }
+
+    .menu a {
+        font-size: 16px !important;
+        font-weight: bold;
+        padding: 5px 13px 5px 13px !important;
+        width: 100%;
+        height: 100%;
+        border-right: 0px solid #000 !important;
+        /* border-top: 1px solid #888 !important; */
+        border-bottom: 1px solid #222 !important;
+        box-shadow: 0 0 0px #000 !important;
+        color: #666 !important;
+        background-image: none !important;
+        background-color: #e5e5e5;
+    }
+
+    .menu a:hover {
+        background: #28cae3 !important;
+        background-image: none !important;
+        color: #fff !important;
+        border-radius: 0px;
+    }
+
+    .menu ul li a, li.menuhover li a, li.menuhover li.menuhover li a {
+
+        text-align: center !important;
+        background: #28cae3 !important;
+
+    }
+
+    #mainmenupart .mainmenu {
+        width: 50%;
+        position: absolute;
+        left: 0;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+
+    .enaplemenu {
+        display: block !important;
+    }
+
+    .mainmenubg-mob {
+        background: url(../images/mainmenubg.png) no-repeat left;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border-radius: 10px; /* border radius */
+        -moz-background-clip: padding;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box; /* prevents bg color from leaking outside the border */
+        background-color: #fff; /* layer fill content */
+        -moz-box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+        -webkit-box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+        box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+        background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEwMCAxMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxsaW5lYXJHcmFkaWVudCBpZD0iaGF0MCIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giIHgxPSI1MCUiIHkxPSIxMDAlIiB4Mj0iNTAlIiB5Mj0iLTEuNDIxMDg1NDcxNTIwMmUtMTQlIj4KPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2M4YzhjOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgIDwvbGluZWFyR3JhZGllbnQ+Cgo8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0idXJsKCNoYXQwKSIgLz4KPC9zdmc+); /* gradient overlay */
+        background-image: -moz-linear-gradient(bottom, #fff 0%, #c8c8c8 100%); /* gradient overlay */
+        background-image: -o-linear-gradient(bottom, #fff 0%, #c8c8c8 100%); /* gradient overlay */
+        background-image: -webkit-linear-gradient(bottom, #fff 0%, #c8c8c8 100%); /* gradient overlay */
+        background-image: linear-gradient(bottom, #fff 0%, #c8c8c8 100%); /* gradient overlay */
+        -moz-box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+        -webkit-box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+        box-shadow: 3px 4px 5px rgba(7, 8, 8, .13); /* drop shadow */
+    }
+
+    .menu_mob_btn {
+        background: url(../images/menu_mob_bg.png) no-repeat center;
+        width: 55px;
+        height: 36px;
+        display: block;
+        cursor: pointer;
+        float: left;
+        margin: 0px 0px -37px 0px;
+        z-index: 1000000000000000000;
+        position: absolute;
+    }
+
+    .menu {
+        width: 40%;
+        float: left;
+        left: 100px;
+        display: none;
+        position: absolute;
+        top: 0px;
+    }
+
+    .menu ul {
+        top: 0px !important;
+        left: 100% !important;
+        box-shadow: 0px 0px 0px #111111 !important;
+        background: #555 !important;
+        position: absolute;
+        /*height:100%;*/
+        width: 93% !important;
+    }
+
+    .menu ul li {
+        background: #555 !important;
+    }
+
+    .menu li {
+        width: 100%;
+        padding: 0px 0px;
+        background: #E5E5E5;
+    }
+
+    .menu a {
+        font-size: 16px !important;
+        font-weight: bold;
+        padding: 5px 13px 5px 13px !important;
+        width: 100%;
+        height: 100%;
+        border-right: 0px solid #000 !important;
+        /* border-top: 1px solid #888 !important; */
+        border-bottom: 1px solid #222 !important;
+        box-shadow: 0 0 0px #000 !important;
+        color: #666 !important;
+        background-image: none !important;
+        background-color: #e5e5e5;
+    }
+
+    .menu a:hover {
+        background: #28cae3 !important;
+        background-image: none !important;
+        color: #fff !important;
+        border-radius: 0px;
+    }
+
+    .menu ul li a, li.menuhover li a, li.menuhover li.menuhover li a {
+
+        text-align: center !important;
+        background: #28cae3 !important;
+
+    }
+
+    #mainmenupart .mainmenu {
+        width: 50%;
+        position: absolute;
+        left: 0;
+    }
+
+}
+
+
