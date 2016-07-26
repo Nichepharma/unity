@@ -185,6 +185,20 @@ class DatalinkController extends Controller
 
             return ireturn("", "saved");
 
+          case 'insert_product':
+          switch ($data_iOS->company) {
+              case '1':
+                DB::connection('tabuk')->insert("INSERT INTO Product (Product) VALUES ('$data_iOS->pname')");
+                break;
+              case '2':
+                DB::connection('chiesi')->insert("INSERT INTO products (pname) VALUES ('$data_iOS->pname')");
+                break;
+              case '3':
+                DB::connection('dermazone')->insert("INSERT INTO product (name, slides) VALUES ('$data_iOS->pname', 0)");
+                break;
+            }
+            return "Done";
+
           case 'insert_plan_eval':
             $user_id = $data_iOS->user_id;
 
