@@ -239,7 +239,7 @@ class InsightsController extends Controller
                             join nichepha_chiesi.customers on visit.cid = customers.cid
                             where relations.up=$uid
                             AND (
-                              saveddate between '{$data['teams_days'][6]}' and '{$data['teams_days'][7]}'
+                              date between '{$data['teams_days'][6]}' and '{$data['teams_days'][7]}'
                               )
                             GROUP BY user.uid, customers.type";
                     }
@@ -263,7 +263,7 @@ class InsightsController extends Controller
                               sum(case when c.type = 3 then 1 else 0 end) t3
                               FROM nichepha_chiesi.visit visit
                               join nichepha_chiesi.customers c on visit.cid=c.cid
-                              WHERE DATE(visit.savedDate) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'
+                              WHERE DATE(visit.date) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'
                               group by uid) visit_type on user.uid=visit_type.uid
                         left Join (SELECT uid ,
                               COUNT(uid) as s_total,
@@ -300,7 +300,7 @@ class InsightsController extends Controller
                               FROM nichepha_chiesi.visit visit
                               join nichepha_chiesi.customers c on visit.cid = c.cid and c.type=1
                               join nichepha_chiesi.doctor doctor on visit.did = doctor.did
-                              WHERE DATE(visit.savedDate) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'
+                              WHERE DATE(visit.date) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'
                               GROUP BY uid) visit_spec on user.uid=visit_spec.uid
                         ";
                         /*
@@ -410,7 +410,7 @@ class InsightsController extends Controller
                               FROM nichepha_chiesi.visit visit
                               join nichepha_chiesi.customers c on visit.cid = c.cid and c.type=1
                               join nichepha_chiesi.doctor doctor on visit.did = doctor.did
-                              WHERE DATE(visit.savedDate) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'
+                              WHERE DATE(visit.date) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'
                               GROUP BY uid,doctor.area) visit_spec on user.uid=visit_spec.uid
                               Where user.uid=$uid
                         ";
