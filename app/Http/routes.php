@@ -11,7 +11,7 @@
 |
 */
 
-
+use Hash;
 //Temporary Disable it
   Route::get('/', function () {
     	return "";
@@ -32,3 +32,7 @@
 
 //Insights Routes
   Route::get('/insights/accumulative-details/{company}/{uid}', 'InsightsController@getAccumlativeDetails');
+
+Route::get('/hash', function(){
+  return Hash::make("cs123");
+});
