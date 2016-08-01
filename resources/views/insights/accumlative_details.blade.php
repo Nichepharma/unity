@@ -8,7 +8,7 @@
 
     @if ($isRep == "t")
       <div class="col-md-2 col-xs-6">
-          <button class="buttonallsite3" ng-class="{'active': activeTab=='rep_areas'}" ng-click="showRepareas()">Private Market Visits [By Area]</button>
+          <button class="buttonallsite3" ng-class="{'active': activeTab=='rep_areas'}" ng-click="showRepareas()">Private Market Calls [By Area]</button>
       </div>
     @elseif ($w == "general")
       <div class="col-md-2 col-xs-6">
@@ -20,7 +20,7 @@
       </div>
 
       <div class="col-md-2 col-xs-6">
-          <button class="buttonallsite3" ng-class="{'active': activeTab=='types'}" ng-click="showTypes()">Visits Types Count</button>
+          <button class="buttonallsite3" ng-class="{'active': activeTab=='types'}" ng-click="showTypes()">Calls Types Count</button>
       </div>
 
       <div class="col-md-2 col-xs-6">
@@ -111,8 +111,8 @@
           <table class="table table-striped table-bordered" id="typesTable">
             <thead>
               <tr>
-                <th>Signle Visits Count</th>
-                <th>Double Visits Count</th>
+                <th>Signle Calls Count</th>
+                <th>Double Calls Count</th>
                 <th>Total</th>
               </tr>
             </thead>
@@ -182,8 +182,8 @@
               <tr>
                   <th st-sort="Rep Name">Rep. Name</th>
                   <th st-sort="test">Area / City</th>
-                  <th st-sort="test">Total visits</th>
-                  <th colspan=3 st-sort="test">By Visit Type</th>
+                  <th st-sort="test">Total Calls</th>
+                  <th colspan=3 st-sort="test">By Call Type</th>
                   <th colspan=16 st-sort="test">By Doctor Speciality</th>
               </tr>
               <tr>
@@ -547,7 +547,7 @@
               <thead>
               <tr>
                   <th st-sort="fullname">Rep Name</th>
-                  <th st-sort="type">Type of Visit</th>
+                  <th st-sort="type">Type of Call</th>
                   <th st-sort="test">{{ $teams_days[6] }}</th>
                   <th st-sort="test">{{ $teams_days[5] }}</th>
                   <th st-sort="test">{{ $teams_days[4] }}</th>
