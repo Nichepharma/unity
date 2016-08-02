@@ -39,11 +39,11 @@ Class SupportController extends Controller{
     if($request['img'] && $request->file('img')->isValid()){
       $storing_name = $message_id . '.' . $request->file('img')->guessClientExtension();
       $request->file('img')->move(storage_path().'/cs/messages', $storing_name);
-      return $storing_name;
+      echo $storing_name;
     }else {
-      return "Nope";
+      echo "Nope";
     }
-
+    return redirect('/support/request/2/1');
 }
 
 }
