@@ -11,7 +11,7 @@ Class SupportController extends Controller{
 
   public function __construct()
   {
-      $this->middleware('auth');
+    $this->middleware('auth');
   }
 
   public function index($company){
@@ -28,6 +28,13 @@ Class SupportController extends Controller{
   }
 
   public function postMessage(Request $request, $company, $id){
+    $message = App\CSMessage::create([
+      'csrequest_id' => $id,
+      'company_id' => $company,
+      'user_id' => 0,
+      'name' => $request['user_name'],
+      'text' => $request['text']
+    ]);
     $message_id = 33;
     if($request['img'] && $request->file('img')->isValid()){
       $storing_name = $message_id . '.' . $request->file('img')->guessClientExtension();
@@ -37,6 +44,6 @@ Class SupportController extends Controller{
       return "Nope";
     }
 
-  }
+}
 
 }
