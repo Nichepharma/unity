@@ -6,6 +6,9 @@
 @section('content')
 <div class="container">
   <div class="row">
+    <h2 align="center">{{$request->type}} Ticket with refrence number of #{{$request->id}} ({{$request->status}})</h2>
+  </div>
+  <div class="row">
     <ul class="timeline">
       <!-- timeline time label -->
       <?php
@@ -75,7 +78,47 @@
       <!-- END timeline item -->
 
       @endforeach
+
+      <li>
+        <i class="fa fa-circle bg-purple"></i>
+      </li>
     </ul>
+  </div>
+
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <!-- quick email widget -->
+      <div class="box box-info">
+        <div class="box-header">
+          <i class="fa fa-envelope"></i>
+          <h3 class="box-title">
+            <font color="gray">Quick Reply</font>
+          </h3>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+          <div class="box-body">
+            <div class="form-group">
+              <input type="text" class="form-control" name="user_name" value="{{Auth::user()->name}}" readonly>
+            </div>
+            <div class="form-group">
+              <textarea class="textarea" placeholder="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="img">Upload a photo </label>
+              <input type="file" name="img" id="img">
+            </div>
+          </div>
+          <div class="box-footer clearfix">
+            <button type="submit" class="pull-right btn btn-default" id="sendEmail">Send
+              <i class="fa fa-arrow-circle-right"></i>
+            </button>
+          </div>
+          <input type="hidden" name="_token" value="{{csrf_token()}}">
+        </form>
+
+      </div>
+    </div>
   </div>
 </div>
 @endsection
