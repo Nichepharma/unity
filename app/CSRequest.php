@@ -10,6 +10,6 @@ class CSRequest extends Model
      protected $guarded = [];
 
      public function messages(){
-       return $this->HasMany('App\CSMessage', 'csrequest_id')->orderBy('id');
+       return $this->HasMany('App\CSMessage', 'csrequest_id')->orderBy('id', 'desc');
      }
 }
