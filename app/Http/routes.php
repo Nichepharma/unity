@@ -33,8 +33,12 @@ Route::get('/plan/user-plan/{company}/{uid}', 'PlanController@plan');
 //Insights Routes
 Route::get('/insights/accumulative-details/{company}/{uid}', 'InsightsController@getAccumlativeDetails');
 
+//Support Routes
 Route::get('/support/{company}', 'SupportController@index');
+
 Route::get('/support/request/{company}/{id}', 'SupportController@getRequest');
+Route::post('/support/request/{company}/{id}', 'SupportController@postMessage');
+
 
 Route::get('/hash', function(){
   return Hash::make("cs123");
