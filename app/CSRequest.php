@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CSRequest extends Model
 {
      protected $table = 'csrequests';
+     protected $guarded = [];
 
      public function messages(){
        return $this->HasMany('App\CSMessage', 'csrequest_id')->orderBy('id');
