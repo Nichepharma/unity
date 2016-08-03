@@ -5,8 +5,11 @@
 
 @section('content')
 <div class="container">
-  <div class="row">
-    <h2 align="center">{{$request->type}} Ticket with refrence number of #{{$request->id}} ({{$request->status}})</h2>
+  <div class="row" align="center">
+    <h2>{{$request->type}} Ticket with refrence number of #{{$request->id}} ({{$request->status}})</h2>
+    <FORM>
+        <input type="button" value="Refresh" onClick="window.location.reload()">
+  </FORM>
   </div>
   <div class="row">
     <ul class="timeline">
@@ -31,22 +34,21 @@
 
       <!-- timeline item -->
       <?php
+        $text = '';
+        $file = '';
       switch (trim(strtolower($message->text))) {
         case '_new_':
         $title = ' started a new Ticket';
-        $text = '';
         $icon = 'fa fa-envelope bg-blue';
         break;
 
         case 'read':
         $title = ' has read the previous message(s)';
-        $text = '';
         $icon = 'fa fa-eye bg-aqua';
         break;
 
         case 'reminder':
         $title = ' has sent a reminder';
-        $text = '';
         $icon = 'fa fa-bell-o bg-aqua';
         break;
 
@@ -55,9 +57,10 @@
         $text = $message->text;
         $icon = 'fa fa-comments bg-yellow';
 
-        if ($message->pic){
+        if (!is_null($message->file)){
           $title = ' uploaded a photo';
           $text = $message->text;
+          $file = url("storage/cs/messages/{$message->file}");
           $icon = 'fa fa-camera bg-purple';
         }
         break;
@@ -68,9 +71,11 @@
         <div class="timeline-item">
           <span class="time"><i class="fa fa-clock-o"></i> {{date("h:i A", strtotime($message->created_at))}}</span>
           <h3 class="timeline-header"><a href="#">{{$message->name}}</a> {{$title}}</h3>
-          @if($text)
+          @if($text || $file)
           <div class="timeline-body">
-            {{$text}}
+            @if($text) {{$text}} @endif
+            @if($text && $file) <br /> @endif
+            @if($file) <img src="{{$file}}"> @endif
           </div>
           @endif
         </div>

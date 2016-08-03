@@ -35,13 +35,14 @@ Class SupportController extends Controller{
       'name' => $request['user_name'],
       'text' => $request['text']
     ]);
-    $message_id = $message->id;
     if($request['img'] && $request->file('img')->isValid()){
-      $storing_name = $message_id . '.' . $request->file('img')->guessClientExtension();
+      //Generating a storing name
+      $storing_name = $message->id . '.' . $request->file('img')->guessClientExtension();
+
+      //Saving the new file and refering to it on the database
       $request->file('img')->move(storage_path().'/cs/messages', $storing_name);
-      echo $storing_name;
-    }else {
-      echo "Nope";
+      $message->file = $storing_name;
+      $message->save();
     }
     return redirect("/support/request/{$company}/{$id}");
 }
