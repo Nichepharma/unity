@@ -1,9 +1,9 @@
 @extends('layout.main')
 
+@section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.3.5/css/AdminLTE.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
 
-@section('content')
 <div class="container">
   <div class="row" align="center">
     <h2>{{$request->type}} Ticket with refrence number of #{{$request->id}} ({{$request->status}})</h2>
