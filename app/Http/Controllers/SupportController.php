@@ -16,6 +16,7 @@ Class SupportController extends Controller{
 
   public function index($company){
     $data['company'] = $company;
+    $data['reqs'] = App\CSRequest::with('company')->get();
     return view('support.index', $data);
   }
 
@@ -45,6 +46,10 @@ Class SupportController extends Controller{
       $message->save();
     }
     return redirect("/support/request/{$company}/{$id}");
+}
+
+public function api(Request $request, $company, $type){
+  return App\CSRequest::all();
 }
 
 }
