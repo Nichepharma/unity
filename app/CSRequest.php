@@ -12,4 +12,8 @@ class CSRequest extends Model
      public function messages(){
        return $this->HasMany('App\CSMessage', 'csrequest_id')->orderBy('id', 'desc');
      }
+
+     public function company(){
+       return $this->belongsTo('App\Company', 'company_id');
+     }
 }
