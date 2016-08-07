@@ -75,7 +75,7 @@
           <div class="timeline-body">
             @if($text) {{$text}} @endif
             @if($text && $file) <br /> @endif
-            @if($file) <img src="{{$file}}"> @endif
+            @if($file) <img src="{{$file}}" height="300px" width="300px"> @endif
           </div>
           @endif
         </div>
