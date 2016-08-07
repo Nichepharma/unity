@@ -39,6 +39,8 @@ Route::get('/support/{company}', 'SupportController@index');
 Route::get('/support/request/{company}/{id}', 'SupportController@getRequest');
 Route::post('/support/request/{company}/{id}', 'SupportController@postMessage');
 
+Route::get('/support/api/{company}/{type}', 'SupportController@api');
+
 
 Route::get('/hash', function(){
   return Hash::make("cs123");
