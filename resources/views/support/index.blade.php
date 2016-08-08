@@ -4,6 +4,29 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 <div class="container">
   <div class="row">
+
+    <div class="col-md-12" align="center">
+      <div class="jumbotron" align="center">
+        <h1>Have a technical problem ?</h1>
+        <p>Start a technical support session now</p>
+        <form>
+        <div class="form-group">
+          <select class="form-control" name="lstProblems" id="lstProblems">
+            <option selected disabled>Problem Type</option>
+            <option>Installing</option>
+            <option>Login</option>
+            <option>During Call</option>
+            <option>Compatibility of customers list</option>
+            <option>Feedback</option>
+            <option>Synchronization</option>
+            <option>Tacitapp.com</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg">Start a new Ticket</button>
+        <form>
+      </div>
+    </div>
+
     <div class="col-md-12"><br /></div>
     <table class="table table-striped table-bordered">
       <thead>
@@ -40,43 +63,43 @@
       <tbody>
         <tr ng-repeat="row in reqs | filter:{company:{name: search_company}	, type: search_type,status: search_status}">
           <td><a href="request/2/[[row.id]]">[[row.id]]<a></td>
-          <td>[[row.company.name]]</td>
-          <td>[[row.type]]</td>
-          <td>[[row.created_at]]</td>
-          <td>[[row.status]]</td>
-        </tr>
-      </tbody>
-    </table>
+            <td>[[row.company.name]]</td>
+            <td>[[row.type]]</td>
+            <td>[[row.created_at]]</td>
+            <td>[[row.status]]</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
-<script>
-var app=angular.module('myApp', []);
+  <script>
+  var app=angular.module('myApp', []);
 
-app.config(function($interpolateProvider) {
-  $interpolateProvider.startSymbol('[[');
-  $interpolateProvider.endSymbol(']]');
-});
+  app.config(function($interpolateProvider) {
+    $interpolateProvider.startSymbol('[[');
+    $interpolateProvider.endSymbol(']]');
+  });
 
-app.filter('unique', function() {
-   return function(collection, keyname) {
+  app.filter('unique', function() {
+    return function(collection, keyname) {
       var output = [],
-          keys = [];
+      keys = [];
 
       angular.forEach(collection, function(item) {
-          var key = item[keyname];
-          if(keys.indexOf(key) === -1) {
-              keys.push(key);
-              output.push(item);
-          }
+        var key = item[keyname];
+        if(keys.indexOf(key) === -1) {
+          keys.push(key);
+          output.push(item);
+        }
       });
 
       return output;
-   };
-});
+    };
+  });
 
-app.controller('gridCtrl', function($scope){
-  $scope.reqs = {!! $reqs !!};
-  $scope.reqs_disp = [].concat($scope.reqs);
-});
-</script>
-@endsection
+  app.controller('gridCtrl', function($scope){
+    $scope.reqs = {!! $reqs !!};
+    $scope.reqs_disp = [].concat($scope.reqs);
+  });
+  </script>
+  @endsection
