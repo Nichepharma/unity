@@ -17,7 +17,9 @@ Class SupportController extends Controller{
 
   public function index($company){
     $data['company'] = $company;
-    $data['reqs'] = App\CSRequest::with('company')->get();
+    $reqs = App\CSRequest::with('company');
+    //if not cs >>> where here
+    $data['reqs'] = $reqs->get();
     return view('support.index', $data);
   }
 
