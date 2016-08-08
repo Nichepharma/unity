@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use DB;
 use App;
+use Auth;
 
 Class SupportController extends Controller{
 
@@ -28,11 +29,25 @@ Class SupportController extends Controller{
     return view('support.request', $data);
   }
 
+  public function postRequest(Request $request, $company){
+    $csrequest = new App\CSRequest;
+    $csrequest->company_id = $company;
+    $csrequest->user_id = Auth::user()->native_id;
+    $csrequest->type = $request['lstProblems'];
+    $csrequest->status = 'Open';
+    $csrequest->save();
+
+    $csmessage = new App\CSMessage;
+    $csmessage->name = Auth::user()->name;
+    $csmessage->text = '_new_';
+    $csrequest->messages()->save($csmessage);
+
+    return redirect("/support/request/{$company}/{$csrequest->id}");
+  }
+
   public function postMessage(Request $request, $company, $id){
     $message = App\CSMessage::create([
       'csrequest_id' => $id,
-      'company_id' => $company,
-      'user_id' => 0,
       'name' => $request['user_name'],
       'text' => $request['text']
     ]);
