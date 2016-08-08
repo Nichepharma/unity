@@ -71,7 +71,7 @@ app.controller('gridCtrl', function($scope){
                 <td>[[row.company.name]]</td>
                 <td>[[row.type]]</td>
                 <td>[[row.created_at]]</td>
-                <td>[[row.status]]</td>
+                <td><a href="request/2/[[row.id]]">[[row.status]]<a></td>
               </tr>
             </tbody>
           </table>
