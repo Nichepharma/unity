@@ -35,6 +35,7 @@ Route::get('/insights/accumulative-details/{company}/{uid}', 'InsightsController
 
 //Support Routes
 Route::get('/support/{company}', 'SupportController@index');
+Route::post('/support/{company}', 'SupportController@postRequest');
 
 Route::get('/support/request/{company}/{id}', 'SupportController@getRequest');
 Route::post('/support/request/{company}/{id}', 'SupportController@postMessage');
