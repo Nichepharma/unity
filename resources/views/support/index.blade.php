@@ -38,12 +38,10 @@
             <tr>
               <th></th>
               <th>
-                <!-- <select class="form-control"  ng-model="search_company"> -->
-                  <!-- <option value="">- All -</option> -->
-                  <!-- <option ng-repeat="row in reqs | unique:'company'" value="[[row.company.name]]">[[row.company]]</option> -->
-                  <!-- <select ng-options="row as row.name for row in reqs">oo</select> -->
-
-                <!-- </select> -->
+                <select class="form-control"  ng-model="search_company">
+                  <option value="">- All -</option>
+                  <option ng-repeat="row in reqs | unique_nested:'company'" value="[[row.company.name]]">[[row.company.name]]</option>
+                </select>
               </th>
               <th>
                 <select class="form-control"  ng-model="search_type">
@@ -89,6 +87,24 @@
             var key = item[keyname];
             if(keys.indexOf(key) === -1) {
               keys.push(key);
+              output.push(item);
+            }
+          });
+
+          return output;
+        };
+      });
+
+      app.filter('unique_nested', function() {
+        return function(collection, keyname) {
+          var output = [],
+          keys = [];
+
+          angular.forEach(collection, function(item) {
+            var key = item[keyname];
+            // alert(key['id']);
+            if(keys.indexOf(key['id']) === -1) {
+              keys.push(key['id']);
               output.push(item);
             }
           });
