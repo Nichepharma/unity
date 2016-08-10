@@ -3,6 +3,8 @@
 @section('content')
 <div class="page-content1">
 
+  @include('others.print_buttons')
+  
   <h2><i class="glyphicon glyphicon-user"></i> {{ $userData[0]->name }}</h2>
     <div class="row">
 
