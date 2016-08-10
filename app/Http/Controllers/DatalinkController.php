@@ -240,9 +240,10 @@ class DatalinkController extends Controller
                $evalanswer->eval_session_id = $eval_id;
                $evalanswer->q_id = $qus[$key];
                if (in_array($evalanswer->q_id, array('45','46','47','48'))){
-                  if(!ctype_digit($answers[$key])){
-                    $answers[$key] = 0;
-                  }
+                  // if(!ctype_digit($answers[$key])){
+                  //   $answers[$key] = 0;
+                  // }
+                  $answers[$key]++;
                }
                $evalanswer->answer = $answers[$key];
                $evalanswer->save();
