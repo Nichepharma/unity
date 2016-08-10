@@ -4,15 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EvalAnswer extends Model
+class EvalQuestionCat extends Model
 {
     /**
      * Get the phone record associated with the user.
      */
-     protected $table = 'eval_ans';
+     protected $table = 'eval_cats';
      public $timestamps = false;
-
-     public function question(){
-       return $this->belongsTo('App\EvalQuestion', 'q_id');
-     }
 }
