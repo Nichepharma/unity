@@ -68,10 +68,10 @@
 </div>
 <!-- /.container -->
 <div class="container-fluid subMenu">
-    @if(Session::has('startDate') && Session::has('endDate'))
+    @if(isset($_GET["datefrom"]) && isset($_GET["dateto"]))
         <div class="col-sm-2">
-            <b>From:</b> {{$data['startDate']}}<br>
-            <b>To:</b> {{$data['endDate']}}
+            <b>From:</b> {{ $_GET["datefrom"] }}<br>
+            <b>To:</b> {{ $_GET["dateto"] }}
         </div>
         <div class="col-sm-9">
             @yield('subMenu')
