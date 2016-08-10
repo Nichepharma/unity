@@ -46,7 +46,10 @@ class EvalController extends Controller
 
         ->get();
 
-        $data['eval_total'] = DB::select('SELECT sum(answer) as c FROM `eval_ans` WHERE eval_session_id=' . $evalID);
+        $data['eval_total'] = DB::select('SELECT sum(answer) as c
+                                          FROM `eval_ans`
+                                          Join eval_qus on eval_ans.q_id= eval_qus.id and eval_qus.cat_id not in (8,9)
+                                          WHERE eval_session_id=' . $evalID);
         $data['company'] = $company;
         return view('eval', $data);
     }
