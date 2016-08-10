@@ -42,7 +42,13 @@ Route::post('/support/request/{company}/{id}', 'SupportController@postMessage');
 
 Route::get('/support/api/{company}/{type}', 'SupportController@api');
 
+Route::get('/home/tell-friend', function(){
+  return view('others.tell_friend');
+});
 
+Route::post('/home/tell-friend', function(){
+  return view('others.tell_friend');
+});
 Route::get('/hash', function(){
   return Hash::make("cs123");
 });
