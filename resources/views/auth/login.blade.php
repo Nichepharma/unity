@@ -14,7 +14,7 @@
                             <label class="col-md-4 control-label">username@company</label>
 
                             <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
+                                <input type="email" class="form-control" name="email" value="@if(isset($_COOKIE['email'])) {{$_COOKIE['email']}} @endif">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -28,7 +28,7 @@
                             <label class="col-md-4 control-label">password</label>
 
                             <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
+                                <input type="password" class="form-control" name="password" value="@if(isset($_COOKIE['pass'])) {{$_COOKIE['pass']}} @endif">
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -42,7 +42,7 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember"> Remember Me
+                                      <input id="login-remember" type="checkbox" name="remember" value="1"> <span class="checklable">Remember me</span>
                                     </label>
                                 </div>
                             </div>
