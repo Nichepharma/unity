@@ -2,6 +2,8 @@
 
 @section('content')
 <div class="container">
+  @include('others.print_buttons')
+
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
@@ -29,10 +31,13 @@
                       ?>
                       <td>{{ $eval_answer->name }}</td>
                       <?php
-                        $answers_ids = array("1", "2", "3", "4", "5");
-                        $answers_names = array("Needs Improvement", "Fair", "Good", "Very Good", "Excellent");
+                        if ($eval_answer->cat != 'OTHER'){
+                          $answers_ids = array("1", "2", "3", "4", "5");
+                          $answers_names = array("Needs Improvement", "Fair", "Good", "Very Good", "Excellent");
+                          $eval_answer->answer = str_replace($answers_ids, $answers_names, $eval_answer->answer);
+                        }
                       ?>
-                      <td>{{ str_replace($answers_ids, $answers_names, $eval_answer->answer) }}</td>
+                      <td>{{ $eval_answer->answer }}</td>
                     </tr>
                     @endforeach
                   </tbody>
