@@ -65,16 +65,28 @@ class InsightsController extends Controller
                     AND DATE(`visit`.`date`) BETWEEN '" . $request->Input('datefrom') . "' and '" . $request->Input('dateto') . "'";
 
                   }elseif($company == 2){
-                      $sqlv = "SELECT doctor.cid as customer_id, Fullname as `name` ,  `speciality` ,  `grade`,
-                                            `visit`.`time` as `time`,
-                                            `visit`.`rep_id` as rep_id,
-                                            MONTH (`visit`.`date`) as month, DAY (`visit`.`date`) as day,
-                      WEEK(`visit`.`date`, 5) - WEEK(DATE_SUB(`visit`.`date`, INTERVAL DAYOFMONTH(`visit`.`date`) - 1 DAY), 5) + 1 as week
-                      FROM nichepha_chiesi.`doctor` doctor
-                      JOIN nichepha_unity.`kol_visits` visit
-                      ON `visit`.`customer_id`=`doctor`.`cid`
-                      WHERE `visit`.`company`=$company and `visit`.`user_id`=$uid
-                      AND DATE(`visit`.`date`) BETWEEN '" . $request->Input('datefrom') . "' and '" . $request->Input('dateto') . "'";
+                      if(isset($_GET['isRep'])){
+                        $sqlv = "SELECT doctor.cid as customer_id, Fullname as `name` ,  `speciality` ,  `grade`,
+                                              ' ' as `time`,
+                                              MONTH (`visit`.`date`) as month, DAY (`visit`.`date`) as day,
+                        WEEK(`visit`.`date`, 5) - WEEK(DATE_SUB(`visit`.`date`, INTERVAL DAYOFMONTH(`visit`.`date`) - 1 DAY), 5) + 1 as week
+                        FROM nichepha_chiesi.`doctor` doctor
+                        JOIN nichepha_chiesi.`visit` visit
+                        ON `visit`.`cid`=`doctor`.`cid`
+                        WHERE `visit`.`uid`=$uid
+                        AND DATE(`visit`.`date`) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'";
+                      }else{
+                        $sqlv = "SELECT doctor.cid as customer_id, Fullname as `name` ,  `speciality` ,  `grade`,
+                                              `visit`.`time` as `time`,
+                                              `visit`.`rep_id` as rep_id,
+                                              MONTH (`visit`.`date`) as month, DAY (`visit`.`date`) as day,
+                        WEEK(`visit`.`date`, 5) - WEEK(DATE_SUB(`visit`.`date`, INTERVAL DAYOFMONTH(`visit`.`date`) - 1 DAY), 5) + 1 as week
+                        FROM nichepha_chiesi.`doctor` doctor
+                        JOIN nichepha_unity.`kol_visits` visit
+                        ON `visit`.`customer_id`=`doctor`.`cid`
+                        WHERE `visit`.`company`=$company and `visit`.`user_id`=$uid
+                        AND DATE(`visit`.`date`) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'";
+                      }
                 }
                   $visits = DB::select($sqlv);
                   $visits = arrayGroupBy($visits, 'customer_id'); // group by customer to prevent repeating
@@ -83,7 +95,7 @@ class InsightsController extends Controller
                     foreach($customerVisits as $visit){
                         $text_before = '';
                         $text_after = '';
-                        if($visit->rep_id != 0){
+                        if(isset($visit->rep_id) && $visit->rep_id != 0){
                           $text_before = '((';
                           $text_after = '))';
                         }
@@ -114,13 +126,23 @@ class InsightsController extends Controller
                                                           WHERE company=$company and user_id=$uid
                                                           And DATE(`visit`.`date`) BETWEEN '" . $request->Input('datefrom') . "' and '" . $request->Input('dateto') . "')";
                   }elseif($company == 2){
-                        $sql = "SELECT doctor.cid as customer_id, Fullname as `name` ,  `speciality` ,  `grade`
-                                FROM nichepha_chiesi.`doctor` doctor
-                                JOIN nichepha_chiesi.`list` ON `doctor`.`cid` =  `list`.`cid`
-                                WHERE  `list`.`uid` =$uid
-                                AND doctor.cid NOT IN (SELECT DISTINCT customer_id from nichepha_unity.kol_visits visit
-                                                          WHERE company=$company and user_id=$uid
-                                                          And DATE(`visit`.`date`) BETWEEN '" . $request->Input('datefrom') . "' and '" . $request->Input('dateto') . "')";
+                        if(isset($_GET['isRep'])){
+                          $sql = "SELECT doctor.cid as customer_id, Fullname as `name` ,  `speciality` ,  `grade`
+                                  FROM nichepha_chiesi.`doctor` doctor
+                                  JOIN nichepha_chiesi.`list` ON `doctor`.`cid` =  `list`.`cid`
+                                  WHERE  `list`.`uid` =$uid
+                                  AND doctor.cid NOT IN (SELECT DISTINCT cid from nichepha_chiesi.visit visit
+                                                            WHERE uid=$uid
+                                                            And DATE(`visit`.`date`) BETWEEN '" . $request->Input('datefrom') . "' and '" . $request->Input('dateto') . "')";
+                          }else{
+                            $sql = "SELECT doctor.cid as customer_id, Fullname as `name` ,  `speciality` ,  `grade`
+                                    FROM nichepha_chiesi.`doctor` doctor
+                                    JOIN nichepha_chiesi.`list` ON `doctor`.`cid` =  `list`.`cid`
+                                    WHERE  `list`.`uid` =$uid
+                                    AND doctor.cid NOT IN (SELECT DISTINCT customer_id from nichepha_unity.kol_visits visit
+                                                              WHERE company=$company and user_id=$uid
+                                                              And DATE(`visit`.`date`) BETWEEN '" . $request->Input('datefrom') . "' and '" . $request->Input('dateto') . "')";
+                          }
                   }
                   $nonVisited = DB::select($sql);
                   $data['doctors'] = array_merge($visited,$nonVisited);

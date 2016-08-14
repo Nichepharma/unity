@@ -4,11 +4,14 @@
 <div class="page-content1">
 
   @include('others.print_buttons')
-  
-  <h2><i class="glyphicon glyphicon-user"></i> {{ $userData[0]->name }}</h2>
+
+  <h2><i class="glyphicon glyphicon-user"></i> {{ $userData[0]->name }} @if($isRep == "t") [Rep] @endif </h2>
     <div class="row">
 
     @if ($isRep == "t")
+      <div class="col-md-2 col-xs-6">
+          <button class="buttonallsite3" ng-class="{'active': activeTab=='doctors'}" ng-click="showDoctors()">Private Market Visits</button>
+      </div>
       <div class="col-md-2 col-xs-6">
           <button class="buttonallsite3" ng-class="{'active': activeTab=='rep_areas'}" ng-click="showRepareas()">Private Market Calls [By Area]</button>
       </div>
@@ -648,7 +651,7 @@
               $('.table').hide();
               scope.activeTab = 'doctors';
               if (typeof (scope.doctorsCollection) === 'undefined') {
-                  var data_url = '{{url('insights/accumulative-details/'.$company.'/'.$userData[0]->native_id."?type=doctors")}}&datefrom={{$startDate}}&dateto={{$endDate}}';
+                  var data_url = '{{url('insights/accumulative-details/'.$company.'/'.$userData[0]->native_id."?type=doctors")}}&datefrom={{$startDate}}&dateto={{$endDate}}@if(isset($_GET["isRep"]))&isRep=t @endif';
                   $http.get(data_url)
 
                           .then(function (response) {
