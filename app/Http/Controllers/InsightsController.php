@@ -146,14 +146,10 @@ class InsightsController extends Controller
                   }
                   $nonVisited = DB::select($sql);
                   $data['doctors'] = array_merge($visited,$nonVisited);
+                  //$data['doctors'] = $visited;
 
-                  $sqlv = "SELECT rep_id, rep_signature as `name` ,
-                                        MONTH (`date`) as month, DAY (`date`) as day,
-                  WEEK(`date`, 5) - WEEK(DATE_SUB(`date`, INTERVAL DAYOFMONTH(`date`) - 1 DAY), 5) + 1 as week
-                  FROM nichepha_chiesi.`doctor` doctor
-                  WHERE `company`=$company and `supervisor_id`=$uid
-                  AND DATE(`date`) BETWEEN '" . $request->Input('datefrom') . "' and '" . $request->Input('dateto') . "'";
-                  $data['sql'] = $sqlv;
+                  //$sqlv = "";
+                  $data['sql'] = $sql;
 
                   return $data;
 
