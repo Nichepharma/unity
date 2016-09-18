@@ -94,7 +94,6 @@ class DatalinkController extends Controller
     public function index(){
       $action = Input::get('action');
       $data_iOS = json_decode(Input::get('data'));
-
       //Saving Latest Request
       /*
       $myfile = fopen("local/app/controllers/latest.txt", "w");

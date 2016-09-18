@@ -7,12 +7,12 @@ if (isset($data['modules']) && !empty($data['modules']))
     <div class="mainmenu">
         <div class="menu_mob_btn"></div>
         <ul class="menu" id="menu">
-            <li class="@if($module=='') current @endif"><a href="http://tacitapp.com/chiesi/main.php">Home</a></li>
-            <li class="insights @if($module=='insights') current @endif"><a href="http://tacitapp.com/chiesi/allproducts.php">INSIGHTS</a></li>
+            <li class="@if($module=='') current @endif"><a href="http://tacitapp.com/chiesi/main.php?datefrom={{$_GET['datefrom']}}&dateto={{$_GET['dateto']}}">Home</a></li>
+            <li class="insights @if($module=='insights') current @endif"><a href="http://tacitapp.com/chiesi/allproducts.php?datefrom={{$_GET['datefrom']}}&dateto={{$_GET['dateto']}}">INSIGHTS</a></li>
             <li class="plan @if($module=='plan') current @endif"><a href="http://tacitapp.com/unity/plan/{{$company}}">PLAN</a></li>
-            <li class="kpi @if($module=='kpi') current @endif"><a href="http://tacitapp.com/chiesi/kpi2.php">KPI</a></li>
-            <li class="customers @if($module=='customers') current @endif"><a href="http://tacitapp.com/chiesi/customerslist.php">CUSTOMERS</a></li>
-            <li class="applications @if($module=='applications') current @endif"><a href="http://tacitapp.com/chiesi/products.php">APPS</a></li>
+            <li class="kpi @if($module=='kpi') current @endif"><a href="http://tacitapp.com/chiesi/kpi2.php?datefrom={{$_GET['datefrom']}}&dateto={{$_GET['dateto']}}">KPI</a></li>
+            <li class="customers @if($module=='customers') current @endif"><a href="http://tacitapp.com/chiesi/customerslist.php?datefrom={{$_GET['datefrom']}}&dateto={{$_GET['dateto']}}">CUSTOMERS</a></li>
+            <li class="applications @if($module=='applications') current @endif"><a href="http://tacitapp.com/chiesi/products.php?datefrom={{$_GET['datefrom']}}&dateto={{$_GET['dateto']}}">APPS</a></li>
 
         </ul>
 

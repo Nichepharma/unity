@@ -19,6 +19,20 @@
       <div class="col-md-2 col-xs-6">
           <button class="buttonallsite3" ng-class="{'active': activeTab=='general_samples'}" ng-click="showSamples()">Samples Insights</button>
       </div>
+      <div class="col-md-2 col-xs-6">
+          <button class="buttonallsite3" ng-class="{'active': activeTab=='private_list_ana'}" ng-click="showPListAna()">Private List Analysis [By Rep]</button>
+      </div>
+      <div class="col-md-2 col-xs-6">
+          <button class="buttonallsite3" ng-class="{'active': activeTab=='private_list_ana_byarea'}" ng-click="showPListAna_byarea()">Private List Analysis [By Area]</button>
+      </div>
+      @elseif ($userId == 0)
+      <div class="col-md-2 col-xs-6">
+          <button class="buttonallsite3" ng-class="{'active': activeTab=='repoveralls'}" ng-click="showRepoveralls()">Reps Overall Report</button>
+      </div>
+
+      <div class="col-md-2 col-xs-6">
+          <button class="buttonallsite3" ng-class="{'active': activeTab=='teams'}" ng-click="showTeams()">Team's Weekly Report</button>
+      </div>
     @else
       <div class="col-md-2 col-xs-6">
           <button class="buttonallsite3" ng-class="{'active': activeTab=='doctors'}" ng-click="showDoctors()">Visits</button>
@@ -80,7 +94,7 @@
               </thead>
               <tbody>
               <tr ng-repeat="row in displayDoctorsCollection">
-                  <td>[[$index+1]]. [[row.name]]</td>
+                  <td><a href="http://www.tacitapp.com/chiesi/accumCalls.php?cid=[[row.customer_id]]&datefrom={{$startDate}}&dateto={{$endDate}}"> [[$index+1]] . [[row.name]] </a> </td>
                   <td>[[row.speciality]]</td>
                   <td>[[row.grade]]</td>
                   @foreach($months as $monthNum=>$month)
@@ -468,86 +482,7 @@
               </tfoot>
           </table>
 
-          <table st-safe-src="samplesCollection" st-table="displaySamplesCollection" class="table table-striped table-bordered" id="samplesTable">
-              <thead>
-              <tr>
-                  <th st-sort="test">Product Name</th>
-                  <th st-sort="test">Total Number of Samples</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr ng-repeat="row in displaySamplesCollection">
-                  <td>[[$index+1]]. [[row.pname]]</td>
-                  <td>[[row.samples]]</td>
-              </tr>
-              </tbody>
-          </table>
-          <table st-safe-src="samples_customersCollection" st-table="displaySamples_customersCollection" class="table table-striped table-bordered" id="samples_customersTable">
-              <thead>
-              <tr>
-                  <th st-sort="test">Product Name</th>
-                  <th st-sort="pname">Visit Type</th>
-                  <th st-sort="type">Total Number of Samples</th>
-              </tr>
-              <tr>
-                <th>
-                    <select st-search="pname" class="form-control">
-                        <option value="">- All -</option>
-                        <option ng-repeat="row in samples_customersCollection | unique:'pname'" value="[[row.pname]]">[[row.pname]]</option>
-                    </select>
-                </th>
-                <th>
-                    <select st-search="type" class="form-control">
-                        <option value="">- All -</option>
-                        <option ng-repeat="row in samples_customersCollection | unique:'type'" value="[[row.type]]">[[row.type]]</option>
-                    </select>
-                </th>
-                <th>
 
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr ng-repeat="row in displaySamples_customersCollection">
-                  <td>[[$index+1]]. [[row.pname]]</td>
-                  <td>[[row.type]]</td>
-                  <td>[[row.samples]]</td>
-              </tr>
-              </tbody>
-          </table>
-          <table st-safe-src="samples_spCollection" st-table="displaySamples_spCollection" class="table table-striped table-bordered" id="samples_spTable">
-              <thead>
-              <tr>
-                  <th st-sort="pname">Product Name</th>
-                  <th st-sort="speciality">Speciality</th>
-                  <th st-sort="test">Total Number of Samples</th>
-              </tr>
-              <tr>
-                <th>
-                    <select st-search="pname" class="form-control">
-                        <option value="">- All -</option>
-                        <option ng-repeat="row in samples_spCollection | unique:'pname'" value="[[row.pname]]">[[row.pname]]</option>
-                    </select>
-                </th>
-                <th>
-                    <select st-search="speciality" class="form-control">
-                        <option value="">- All -</option>
-                        <option ng-repeat="row in samples_spCollection | unique:'speciality'" value="[[row.speciality]]">[[row.speciality]]</option>
-                    </select>
-                </th>
-                <th>
-
-                </th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr ng-repeat="row in displaySamples_spCollection">
-                  <td>[[$index+1]]. [[row.pname]]</td>
-                  <td>[[row.speciality]]</td>
-                  <td>[[row.samples]]</td>
-              </tr>
-              </tbody>
-          </table>
           <table st-safe-src="teamsCollection" st-table="displayTeamsCollection" class="table table-striped table-bordered" id="teamsTable">
               <thead>
               <tr>
@@ -598,6 +533,502 @@
                   <td>[[row.day6]]</td>
                   <td>[[row.day7]]</td>
                   <td>[[row.total]]</td>
+              </tr>
+              </tbody>
+          </table>
+          <table st-safe-src="pmarketCollection" st-table="displayPmarketCollection" class="table table-striped table-bordered" id="pmarketTable">
+            <thead>
+              <tr>
+                <th st-sort="Rep Name">Rep Name</th>
+                <th colspan=3 st-sort="test">#ORS</th>
+                <th colspan=3 st-sort="test">#GP</th>
+                <th colspan=3 st-sort="test">#IM</th>
+                <th colspan=3 st-sort="test">#S</th>
+                <th colspan=3 st-sort="test">#U</th>
+                <th colspan=3 st-sort="test">#N</th>
+                <th colspan=3 st-sort="test">#ON</th>
+                <th colspan=3 st-sort="test">#ENT</th>
+                <th colspan=3 st-sort="test">#DEN</th>
+                <th colspan=3 st-sort="test">#GE</th>
+                <th colspan=3 st-sort="test">#PUD</th>
+                <th colspan=3 st-sort="test">#GYN</th>
+                <th colspan=3 st-sort="test">#RHU</th>
+                <th colspan=3 st-sort="test">#ID</th>
+                <th st-sort="test">#Others</th>
+                <th st-sort="test">Total</th>
+              </tr>
+              <tr>
+                <th st-sort="test"></th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">#Others</th>
+                <th st-sort="test">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="row in displayPmarketCollection">
+                <td> [[$index+1]]. [[row.fullname]] </td>
+
+                <td> [[row.s_ors_a]] </td>
+                <td> [[row.s_ors_b]] </td>
+                <td> [[row.s_ors_c]] </td>
+
+                <td> [[row.s_gp_a]] </td>
+                <td> [[row.s_gp_b]] </td>
+                <td> [[row.s_gp_c]] </td>
+
+                <td> [[row.s_im_a]] </td>
+                <td> [[row.s_im_b]] </td>
+                <td> [[row.s_im_c]] </td>
+
+                <td> [[row.s_s_a]] </td>
+                <td> [[row.s_s_b]] </td>
+                <td> [[row.s_s_c]] </td>
+
+                <td> [[row.s_u_a]] </td>
+                <td> [[row.s_u_b]] </td>
+                <td> [[row.s_u_c]] </td>
+
+                <td> [[row.s_n_a]] </td>
+                <td> [[row.s_n_b]] </td>
+                <td> [[row.s_n_c]] </td>
+
+                <td> [[row.s_on_a]] </td>
+                <td> [[row.s_on_b]] </td>
+                <td> [[row.s_on_c]] </td>
+
+                <td> [[row.s_ent_a]] </td>
+                <td> [[row.s_ent_b]] </td>
+                <td> [[row.s_ent_c]] </td>
+
+                <td> [[row.s_den_a]] </td>
+                <td> [[row.s_den_b]] </td>
+                <td> [[row.s_den_c]] </td>
+
+                <td> [[row.s_ge_a]] </td>
+                <td> [[row.s_ge_b]] </td>
+                <td> [[row.s_ge_c]] </td>
+
+                <td> [[row.s_pud_a]] </td>
+                <td> [[row.s_pud_b]] </td>
+                <td> [[row.s_pud_c]] </td>
+
+                <td> [[row.s_gyn_a]] </td>
+                <td> [[row.s_gyn_b]] </td>
+                <td> [[row.s_gyn_c]] </td>
+
+                <td> [[row.s_rhu_a]] </td>
+                <td> [[row.s_rhu_b]] </td>
+                <td> [[row.s_rhu_c]] </td>
+
+                <td> [[row.s_id_a]] </td>
+                <td> [[row.s_id_b]] </td>
+                <td> [[row.s_id_c]] </td>
+
+                <td> [[row.s_others]] </td>
+                <td> [[row.s_total]] </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th st-sort="test">Total</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_ors_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_ors_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_ors_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_gp_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_gp_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_gp_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_im_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_im_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_im_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_s_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_s_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_s_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_u_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_u_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_u_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_n_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_n_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_n_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_on_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_on_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_on_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_ent_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_ent_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_ent_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_den_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_den_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_den_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_ge_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_ge_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_ge_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_pud_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_pud_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_pud_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_gyn_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_gyn_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_gyn_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_rhu_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_rhu_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_rhu_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_id_a")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_id_b")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_id_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAnaTotal("s_others")]]</th>
+                <th st-sort="test">[[getPMarketAnaTotal("s_total")]]</th>
+              </tr>
+            </tfoot>
+          </table>
+
+          <table st-safe-src="pmarketCollection_byarea" st-table="displayPmarketCollection_byarea" class="table table-striped table-bordered" id="pmarketTable_byarea">
+            <thead>
+              <tr>
+                <th st-sort="Rep Name">Rep Name</th>
+                <th colspan=3 st-sort="test">#ORS</th>
+                <th colspan=3 st-sort="test">#GP</th>
+                <th colspan=3 st-sort="test">#IM</th>
+                <th colspan=3 st-sort="test">#S</th>
+                <th colspan=3 st-sort="test">#U</th>
+                <th colspan=3 st-sort="test">#N</th>
+                <th colspan=3 st-sort="test">#ON</th>
+                <th colspan=3 st-sort="test">#ENT</th>
+                <th colspan=3 st-sort="test">#DEN</th>
+                <th colspan=3 st-sort="test">#GE</th>
+                <th colspan=3 st-sort="test">#PUD</th>
+                <th colspan=3 st-sort="test">#GYN</th>
+                <th colspan=3 st-sort="test">#RHU</th>
+                <th colspan=3 st-sort="test">#ID</th>
+                <th st-sort="test">#Others</th>
+                <th st-sort="test">Total</th>
+              </tr>
+              <tr>
+                <th st-sort="test"></th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">A</th>
+                <th st-sort="test">B</th>
+                <th st-sort="test">C</th>
+                <th st-sort="test">#Others</th>
+                <th st-sort="test">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="row in displayPmarketCollection_byarea">
+                <td> [[$index+1]]. [[row.area]] </td>
+
+                <td> [[row.s_ors_a]] </td>
+                <td> [[row.s_ors_b]] </td>
+                <td> [[row.s_ors_c]] </td>
+
+                <td> [[row.s_gp_a]] </td>
+                <td> [[row.s_gp_b]] </td>
+                <td> [[row.s_gp_c]] </td>
+
+                <td> [[row.s_im_a]] </td>
+                <td> [[row.s_im_b]] </td>
+                <td> [[row.s_im_c]] </td>
+
+                <td> [[row.s_s_a]] </td>
+                <td> [[row.s_s_b]] </td>
+                <td> [[row.s_s_c]] </td>
+
+                <td> [[row.s_u_a]] </td>
+                <td> [[row.s_u_b]] </td>
+                <td> [[row.s_u_c]] </td>
+
+                <td> [[row.s_n_a]] </td>
+                <td> [[row.s_n_b]] </td>
+                <td> [[row.s_n_c]] </td>
+
+                <td> [[row.s_on_a]] </td>
+                <td> [[row.s_on_b]] </td>
+                <td> [[row.s_on_c]] </td>
+
+                <td> [[row.s_ent_a]] </td>
+                <td> [[row.s_ent_b]] </td>
+                <td> [[row.s_ent_c]] </td>
+
+                <td> [[row.s_den_a]] </td>
+                <td> [[row.s_den_b]] </td>
+                <td> [[row.s_den_c]] </td>
+
+                <td> [[row.s_ge_a]] </td>
+                <td> [[row.s_ge_b]] </td>
+                <td> [[row.s_ge_c]] </td>
+
+                <td> [[row.s_pud_a]] </td>
+                <td> [[row.s_pud_b]] </td>
+                <td> [[row.s_pud_c]] </td>
+
+                <td> [[row.s_gyn_a]] </td>
+                <td> [[row.s_gyn_b]] </td>
+                <td> [[row.s_gyn_c]] </td>
+
+                <td> [[row.s_rhu_a]] </td>
+                <td> [[row.s_rhu_b]] </td>
+                <td> [[row.s_rhu_c]] </td>
+
+                <td> [[row.s_id_a]] </td>
+                <td> [[row.s_id_b]] </td>
+                <td> [[row.s_id_c]] </td>
+
+                <td> [[row.s_others]] </td>
+                <td> [[row.s_total]] </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th st-sort="test">Total</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_ors_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_ors_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_ors_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_gp_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_gp_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_gp_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_im_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_im_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_im_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_s_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_s_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_s_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_u_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_u_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_u_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_n_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_n_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_n_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_on_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_on_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_on_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_ent_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_ent_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_ent_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_den_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_den_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_den_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_ge_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_ge_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_ge_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_pud_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_pud_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_pud_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_gyn_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_gyn_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_gyn_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_rhu_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_rhu_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_rhu_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_id_a")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_id_b")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_id_c")]]</th>
+
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_others")]]</th>
+                <th st-sort="test">[[getPMarketAna_byareaTotal("s_total")]]</th>
+              </tr>
+            </tfoot>
+          </table>
+
+          <h2 style="visibility: hidden;" class="samplesLabels">Samples By Product</h2>
+          <table st-safe-src="samplesCollection" st-table="displaySamplesCollection" class="table table-striped table-bordered" id="samplesTable">
+              <thead>
+              <tr>
+                  <th st-sort="test">Product Name</th>
+                  <th st-sort="test">Total Number of Samples</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="row in displaySamplesCollection">
+                  <td>[[$index+1]]. [[row.pname]]</td>
+                  <td>[[row.samples]]</td>
+              </tr>
+              </tbody>
+          </table>
+          <h2 style="visibility: hidden;" class="samplesLabels">Samples By Visit Type</h2>
+          <table st-safe-src="samples_customersCollection" st-table="displaySamples_customersCollection" class="table table-striped table-bordered" id="samples_customersTable">
+              <thead>
+              <tr>
+                  <th st-sort="test">Product Name</th>
+                  <th st-sort="pname">Visit Type</th>
+                  <th st-sort="type">Total Number of Samples</th>
+              </tr>
+              <tr>
+                <th>
+                    <select st-search="pname" class="form-control">
+                        <option value="">- All -</option>
+                        <option ng-repeat="row in samples_customersCollection | unique:'pname'" value="[[row.pname]]">[[row.pname]]</option>
+                    </select>
+                </th>
+                <th>
+                    <select st-search="type" class="form-control">
+                        <option value="">- All -</option>
+                        <option ng-repeat="row in samples_customersCollection | unique:'type'" value="[[row.type]]">[[row.type]]</option>
+                    </select>
+                </th>
+                <th>
+
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="row in displaySamples_customersCollection">
+                  <td>[[$index+1]]. [[row.pname]]</td>
+                  <td>[[row.type]]</td>
+                  <td>[[row.samples]]</td>
+              </tr>
+              </tbody>
+          </table>
+          <h2 style="visibility: hidden;" class="samplesLabels">Samples By Speciality</h2>
+          <table st-safe-src="samples_spCollection" st-table="displaySamples_spCollection" class="table table-striped table-bordered" id="samples_spTable">
+              <thead>
+              <tr>
+                  <th st-sort="pname">Product Name</th>
+                  <th st-sort="speciality">Speciality</th>
+                  <th st-sort="test">Total Number of Samples</th>
+              </tr>
+              <tr>
+                <th>
+                    <select st-search="pname" class="form-control">
+                        <option value="">- All -</option>
+                        <option ng-repeat="row in samples_spCollection | unique:'pname'" value="[[row.pname]]">[[row.pname]]</option>
+                    </select>
+                </th>
+                <th>
+                    <select st-search="speciality" class="form-control">
+                        <option value="">- All -</option>
+                        <option ng-repeat="row in samples_spCollection | unique:'speciality'" value="[[row.speciality]]">[[row.speciality]]</option>
+                    </select>
+                </th>
+                <th>
+
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="row in displaySamples_spCollection">
+                  <td>[[$index+1]]. [[row.pname]]</td>
+                  <td>[[row.speciality]]</td>
+                  <td>[[row.samples]]</td>
+              </tr>
+              </tbody>
+          </table>
+          <h2 style="visibility: hidden;" class="samplesLabels">Samples By Rep</h2>
+          <table st-safe-src="samples_repCollection" st-table="displaySamples_spCollection" class="table table-striped table-bordered" id="samples_repTable">
+              <thead>
+              <tr>
+                  <th st-sort="pname">Rep Name</th>
+                  <th st-sort="test">Total Number of Samples</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="row in displaySamples_repCollection">
+                  <td>[[$index+1]]. [[row.fullname]]</td>
+                  <td>[[row.samples]]</td>
               </tr>
               </tbody>
           </table>
@@ -735,17 +1166,23 @@
                           .then(function (response) {
                             scope.samplesCollection = response.data.samples;
                             scope.samples_spCollection = response.data.samples_sp;
+                            scope.samples_repCollection = response.data.samples_rep;
                             scope.samples_customersCollection = response.data.samples_customers;
                             scope.displaySamplesCollection = [].concat(scope.samplesCollection);
                             scope.displaySamples_spCollection = [].concat(scope.samples_spCollection);
+                            scope.displaySamples_repCollection = [].concat(scope.samples_repCollection);
                             scope.displaySamples_customersCollection = [].concat(scope.samples_customersCollection);
                             $('#samplesTable').fadeIn();
+                            $('.samplesLabels').css("visibility", "visible");
                             $('#samples_spTable').fadeIn();
+                            $('#samples_repTable').fadeIn();
                             $('#samples_customersTable').fadeIn();
                           });
               } else {
                 $('#samplesTable').fadeIn();
+                $('.samplesLabels').css("visibility", "visible");
                 $('#samples_spTable').fadeIn();
+                $('#samples_repTable').fadeIn();
                 $('#samples_customersTable').fadeIn();
               }
 
@@ -766,6 +1203,44 @@
                           });
               } else {
                 $('#teamsTable').fadeIn();
+              }
+
+  //                console.log(scope.doctorsCollection);
+          };
+
+          scope.showPListAna = function () {
+              $('.table').hide();
+              $('.samplesLabels').css("visibility", "hidden");
+              scope.activeTab = 'private_list_ana';
+              if (typeof (scope.pmarketCollection) === 'undefined') {
+                  var data_url = '{{url('insights/accumulative-details/'.$company.'/'.$userData[0]->native_id."?type=private_list_ana")}}&datefrom={{$startDate}}&dateto={{$endDate}}';
+                  $http.get(data_url)
+                          .then(function (response) {
+                            scope.pmarketCollection = response.data.private_list_ana;
+                            scope.displayPmarketCollection = [].concat(scope.pmarketCollection);
+                            $('#pmarketTable').fadeIn();
+                          });
+              } else {
+                $('#pmarketTable').fadeIn();
+              }
+
+  //                console.log(scope.doctorsCollection);
+          };
+
+          scope.showPListAna_byarea = function () {
+              $('.table').hide();
+              $('.samplesLabels').css("visibility", "hidden");
+              scope.activeTab = 'private_list_ana_byarea';
+              if (typeof (scope.pmarketCollection_byarea) === 'undefined') {
+                  var data_url = '{{url('insights/accumulative-details/'.$company.'/'.$userData[0]->native_id."?type=private_list_ana_byarea")}}&datefrom={{$startDate}}&dateto={{$endDate}}';
+                  $http.get(data_url)
+                          .then(function (response) {
+                            scope.pmarketCollection_byarea = response.data.private_list_ana_byarea;
+                            scope.displayPmarketCollection_byarea = [].concat(scope.pmarketCollection_byarea);
+                            $('#pmarketTable_byarea').fadeIn();
+                          });
+              } else {
+                $('#pmarketTable_byarea').fadeIn();
               }
 
   //                console.log(scope.doctorsCollection);
@@ -807,6 +1282,24 @@
               return total;
           };
 
+          scope.getPMarketAnaTotal = function(col){
+            var total = 0;
+            for(var i = 0; i < scope.displayPmarketCollection.length; i++){
+              var row = scope.displayPmarketCollection[i];
+              total += Number(row[col]);
+            }
+              return total;
+          };
+
+          scope.getPMarketAna_byareaTotal = function(col){
+            var total = 0;
+            for(var i = 0; i < scope.displayPmarketCollection_byarea.length; i++){
+              var row = scope.displayPmarketCollection_byarea[i];
+              total += Number(row[col]);
+            }
+              return total;
+          };
+
           scope.OnlyFirst = function(str){
             if (str == scope.CurrentFirstName){
               return "E";
@@ -821,6 +1314,8 @@
           scope.showRepareas();
           @elseif ($w == "general")
           scope.showSamples();
+          @elseif ($userId == 0)
+          scope.showRepoveralls();
           @else
           scope.showDoctors();
           @endif

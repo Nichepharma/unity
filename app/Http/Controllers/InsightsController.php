@@ -127,13 +127,23 @@ class InsightsController extends Controller
                                                           And DATE(`visit`.`date`) BETWEEN '" . $request->Input('datefrom') . "' and '" . $request->Input('dateto') . "')";
                   }elseif($company == 2){
                         if(isset($_GET['isRep'])){
+                          $sql = "SELECT DISTINCT cid from nichepha_chiesi.visit visit
+                          WHERE uid={$uid}
+                          And DATE(`visit`.`date`) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'";
+
+                          $visited_to_trim = DB::select($sql);
+
+                          $visited_to_trim_array = '';
+                          foreach ($visited_to_trim as $key => $value) {
+                            $visited_to_trim_array .= $value->cid . ",";
+                          }
+                          $visited_to_trim_array = '(' . rtrim($visited_to_trim_array, ',') . ')';
+
                           $sql = "SELECT doctor.cid as customer_id, Fullname as `name` ,  `speciality` ,  `grade`
                                   FROM nichepha_chiesi.`doctor` doctor
                                   JOIN nichepha_chiesi.`list` ON `doctor`.`cid` =  `list`.`cid`
                                   WHERE  `list`.`uid` =$uid
-                                  AND doctor.cid NOT IN (SELECT DISTINCT cid from nichepha_chiesi.visit visit
-                                                            WHERE uid=$uid
-                                                            And DATE(`visit`.`date`) BETWEEN '" . $request->Input('datefrom') . "' and '" . $request->Input('dateto') . "')";
+                                  AND doctor.cid NOT IN {$visited_to_trim_array}";
                           }else{
                             $sql = "SELECT doctor.cid as customer_id, Fullname as `name` ,  `speciality` ,  `grade`
                                     FROM nichepha_chiesi.`doctor` doctor
@@ -146,7 +156,6 @@ class InsightsController extends Controller
                   }
                   $nonVisited = DB::select($sql);
                   $data['doctors'] = array_merge($visited,$nonVisited);
-                  //$data['doctors'] = $visited;
 
                   //$sqlv = "";
                   $data['sql'] = $sql;
@@ -216,14 +225,25 @@ class InsightsController extends Controller
                         join nichepha_chiesi.products products on visitSample.pid = products.pid
                         WHERE DATE(nichepha_chiesi.visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} ') v on doctor.cid = v.cid
                         GROUP BY v.pid, doctor.speciality";
+
+                        $sql_samples_rep = "SELECT user.fullname, sum(number) as samples
+                        FROM nichepha_chiesi.visit visit
+                        JOIN nichepha_chiesi.visitSample visitSample on visit.vid=visitSample.vid
+                        JOIN nichepha_chiesi.user user on visit.uid = user.uid
+                        WHERE DATE(visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} '
+                        AND number>0
+                        GROUP by visit.uid
+                        ORDER BY samples DESC";
                   }
                   $samples_products = DB::select($sql_samples_products);
                   $samples_products_customers = DB::select($sql_samples_products_customers);
                   $samples_sp = DB::select($sql_samples_sp);
+                  $samples_rep = DB::select($sql_samples_rep);
 
                   $data['samples'] = $samples_products;
                   $data['samples_customers'] = $samples_products_customers;
                   $data['samples_sp'] = $samples_sp;
+                  $data['samples_rep'] = $samples_rep;
                   //$data['sql'] = $sqlv;
                   return $data;
 
@@ -241,8 +261,13 @@ class InsightsController extends Controller
                   $data['teams_days'][7] = date('Y-m-d', strtotime($data['teams_days'][0] .' +1 day'));
 
                   if($company == 2){
+			
+			if ($uid==0){
+                        	$uid='relations.up and user.uid not in (0,21,2,4,43,75,74)';
+                      	}
+			
                     $sql = "SELECT user.fullname,
-                            replace(replace(replace(customers.type, 1, 'Private Market'), 2, 'Pharnacies'), 3, 'Hospital') as type,
+                            replace(replace(replace(customers.type, 1, 'Private Market'), 2, 'Pharmacies'), 3, 'Hospital') as type,
                             count(visit.vid) as total,
                             sum(case when date(visit.date) = '{$data['teams_days'][6]}' then 1 else 0 end) day1,
                             sum(case when date(visit.date) = '{$data['teams_days'][5]}' then 1 else 0 end) day2,
@@ -253,7 +278,7 @@ class InsightsController extends Controller
                             sum(case when date(visit.date) = '{$data['teams_days'][0]}' then 1 else 0 end) day7
                             FROM nichepha_chiesi.relations relations
                             join nichepha_chiesi.user on relations.down = user.uid
-                            join nichepha_chiesi.visit on user.uid = visit.uid
+                            join (select * from nichepha_chiesi.visit GROUP BY uid,cid,date(date)) visit on user.uid = visit.uid
                             join nichepha_chiesi.customers on visit.cid = customers.cid
                             where relations.up=$uid
                             AND (
@@ -266,20 +291,210 @@ class InsightsController extends Controller
                   $data['sql'] = $sql;
                   return $data;
 
+                case "private_list_ana":
+                  if($company == 2){
+                    $sql = "SELECT UserList.fullname,
+                    COUNT(UserList.fullname) as s_total,
+                    sum(case when doctor.speciality = 'ORS' and doctor.grade='A' then 1 else 0 end) s_ors_a,
+                    sum(case when doctor.speciality = 'ORS' and doctor.grade='B' then 1 else 0 end) s_ors_b,
+                    sum(case when doctor.speciality = 'ORS' and doctor.grade='C' then 1 else 0 end) s_ors_c,
+
+                    sum(case when doctor.speciality = 'GP'  and doctor.grade='A' then 1 else 0 end) s_gp_a,
+                    sum(case when doctor.speciality = 'GP'  and doctor.grade='B' then 1 else 0 end) s_gp_b,
+                    sum(case when doctor.speciality = 'GP'  and doctor.grade='C' then 1 else 0 end) s_gp_c,
+
+                    sum(case when doctor.speciality = 'IM'  and doctor.grade='A' then 1 else 0 end) s_im_a,
+                    sum(case when doctor.speciality = 'IM'  and doctor.grade='B' then 1 else 0 end) s_im_b,
+                    sum(case when doctor.speciality = 'IM'  and doctor.grade='C' then 1 else 0 end) s_im_c,
+
+                    sum(case when doctor.speciality = 'S'  and doctor.grade='A' then 1 else 0 end) s_s_a,
+                    sum(case when doctor.speciality = 'S'  and doctor.grade='B' then 1 else 0 end) s_s_b,
+                    sum(case when doctor.speciality = 'S'  and doctor.grade='C' then 1 else 0 end) s_s_c,
+
+                    sum(case when doctor.speciality = 'U'  and doctor.grade='A' then 1 else 0 end) s_u_a,
+                    sum(case when doctor.speciality = 'U'  and doctor.grade='B' then 1 else 0 end) s_u_b,
+                    sum(case when doctor.speciality = 'U'  and doctor.grade='C' then 1 else 0 end) s_u_c,
+
+                    sum(case when doctor.speciality = 'N'  and doctor.grade='A' then 1 else 0 end) s_n_a,
+                    sum(case when doctor.speciality = 'N'  and doctor.grade='B' then 1 else 0 end) s_n_b,
+                    sum(case when doctor.speciality = 'N'  and doctor.grade='C' then 1 else 0 end) s_n_c,
+
+                    sum(case when doctor.speciality = 'ON'  and doctor.grade='A' then 1 else 0 end) s_on_a,
+                    sum(case when doctor.speciality = 'ON'  and doctor.grade='B' then 1 else 0 end) s_on_b,
+                    sum(case when doctor.speciality = 'ON'  and doctor.grade='C' then 1 else 0 end) s_on_c,
+
+                    sum(case when doctor.speciality = 'ENT'  and doctor.grade='A' then 1 else 0 end) s_ent_a,
+                    sum(case when doctor.speciality = 'ENT'  and doctor.grade='B' then 1 else 0 end) s_ent_b,
+                    sum(case when doctor.speciality = 'ENT'  and doctor.grade='C' then 1 else 0 end) s_ent_c,
+
+                    sum(case when doctor.speciality = 'DEN'  and doctor.grade='A' then 1 else 0 end) s_den_a,
+                    sum(case when doctor.speciality = 'DEN'  and doctor.grade='B' then 1 else 0 end) s_den_b,
+                    sum(case when doctor.speciality = 'DEN'  and doctor.grade='C' then 1 else 0 end) s_den_c,
+
+                    sum(case when doctor.speciality = 'GE'  and doctor.grade='A' then 1 else 0 end) s_ge_a,
+                    sum(case when doctor.speciality = 'GE'  and doctor.grade='B' then 1 else 0 end) s_ge_b,
+                    sum(case when doctor.speciality = 'GE'  and doctor.grade='C' then 1 else 0 end) s_ge_c,
+
+                    sum(case when doctor.speciality = 'PUD'  and doctor.grade='A' then 1 else 0 end) s_pud_a,
+                    sum(case when doctor.speciality = 'PUD'  and doctor.grade='B' then 1 else 0 end) s_pud_b,
+                    sum(case when doctor.speciality = 'PUD'  and doctor.grade='C' then 1 else 0 end) s_pud_c,
+
+                    sum(case when doctor.speciality = 'GYN'  and doctor.grade='A' then 1 else 0 end) s_gyn_a,
+                    sum(case when doctor.speciality = 'GYN'  and doctor.grade='B' then 1 else 0 end) s_gyn_b,
+                    sum(case when doctor.speciality = 'GYN'  and doctor.grade='C' then 1 else 0 end) s_gyn_c,
+
+                    sum(case when doctor.speciality = 'RHU'  and doctor.grade='A' then 1 else 0 end) s_rhu_a,
+                    sum(case when doctor.speciality = 'RHU'  and doctor.grade='B' then 1 else 0 end) s_rhu_b,
+                    sum(case when doctor.speciality = 'RHU'  and doctor.grade='C' then 1 else 0 end) s_rhu_c,
+
+                    sum(case when doctor.speciality = 'ID'  and doctor.grade='A' then 1 else 0 end) s_id_a,
+                    sum(case when doctor.speciality = 'ID'  and doctor.grade='B' then 1 else 0 end) s_id_b,
+                    sum(case when doctor.speciality = 'ID'  and doctor.grade='C' then 1 else 0 end) s_id_c,
+                    sum(case when
+                      doctor.speciality = 'ORS' or
+                      doctor.speciality = 'GP' or
+                      doctor.speciality = 'IM' or
+                      doctor.speciality = 'S' or
+                      doctor.speciality = 'U' or
+                      doctor.speciality = 'N' or
+                      doctor.speciality = 'ON' or
+                      doctor.speciality = 'ENT' or
+                      doctor.speciality = 'DEN' or
+                      doctor.speciality = 'GE' or
+                      doctor.speciality = 'PUD' or
+                      doctor.speciality = 'GYN' or
+                      doctor.speciality = 'RHU' or
+                      doctor.speciality = 'ID'
+                       then 0 else 1 end) s_others
+                    FROM
+                    (SELECT user.fullname,list.cid
+                    from user
+                    join relations ON user.uid = relations.down
+                    join list on user.uid = list.uid
+                    JOIN customers on list.cid=customers.cid and customers.type=1
+                    WHERE user.Job = '1'
+                    And user.uid not in (4,2,43,21)) UserList
+                    JOIN doctor on UserList.cid = doctor.cid
+                    GROUP by UserList.fullname
+                    Order By UserList.fullname";
+                    }
+                  $teams = DB::connection('chiesi')->select($sql);
+                  $data['private_list_ana'] = $teams;
+                  $data['sql'] = $sql;
+                  return $data;
+
+                case "private_list_ana_byarea":
+                  if($company == 2){
+                    $sql = "SELECT UserList.area,
+                    COUNT(UserList.area) as s_total,
+                    sum(case when doctor.speciality = 'ORS' and doctor.grade='A' then 1 else 0 end) s_ors_a,
+                    sum(case when doctor.speciality = 'ORS' and doctor.grade='B' then 1 else 0 end) s_ors_b,
+                    sum(case when doctor.speciality = 'ORS' and doctor.grade='C' then 1 else 0 end) s_ors_c,
+
+                    sum(case when doctor.speciality = 'GP'  and doctor.grade='A' then 1 else 0 end) s_gp_a,
+                    sum(case when doctor.speciality = 'GP'  and doctor.grade='B' then 1 else 0 end) s_gp_b,
+                    sum(case when doctor.speciality = 'GP'  and doctor.grade='C' then 1 else 0 end) s_gp_c,
+
+                    sum(case when doctor.speciality = 'IM'  and doctor.grade='A' then 1 else 0 end) s_im_a,
+                    sum(case when doctor.speciality = 'IM'  and doctor.grade='B' then 1 else 0 end) s_im_b,
+                    sum(case when doctor.speciality = 'IM'  and doctor.grade='C' then 1 else 0 end) s_im_c,
+
+                    sum(case when doctor.speciality = 'S'  and doctor.grade='A' then 1 else 0 end) s_s_a,
+                    sum(case when doctor.speciality = 'S'  and doctor.grade='B' then 1 else 0 end) s_s_b,
+                    sum(case when doctor.speciality = 'S'  and doctor.grade='C' then 1 else 0 end) s_s_c,
+
+                    sum(case when doctor.speciality = 'U'  and doctor.grade='A' then 1 else 0 end) s_u_a,
+                    sum(case when doctor.speciality = 'U'  and doctor.grade='B' then 1 else 0 end) s_u_b,
+                    sum(case when doctor.speciality = 'U'  and doctor.grade='C' then 1 else 0 end) s_u_c,
+
+                    sum(case when doctor.speciality = 'N'  and doctor.grade='A' then 1 else 0 end) s_n_a,
+                    sum(case when doctor.speciality = 'N'  and doctor.grade='B' then 1 else 0 end) s_n_b,
+                    sum(case when doctor.speciality = 'N'  and doctor.grade='C' then 1 else 0 end) s_n_c,
+
+                    sum(case when doctor.speciality = 'ON'  and doctor.grade='A' then 1 else 0 end) s_on_a,
+                    sum(case when doctor.speciality = 'ON'  and doctor.grade='B' then 1 else 0 end) s_on_b,
+                    sum(case when doctor.speciality = 'ON'  and doctor.grade='C' then 1 else 0 end) s_on_c,
+
+                    sum(case when doctor.speciality = 'ENT'  and doctor.grade='A' then 1 else 0 end) s_ent_a,
+                    sum(case when doctor.speciality = 'ENT'  and doctor.grade='B' then 1 else 0 end) s_ent_b,
+                    sum(case when doctor.speciality = 'ENT'  and doctor.grade='C' then 1 else 0 end) s_ent_c,
+
+                    sum(case when doctor.speciality = 'DEN'  and doctor.grade='A' then 1 else 0 end) s_den_a,
+                    sum(case when doctor.speciality = 'DEN'  and doctor.grade='B' then 1 else 0 end) s_den_b,
+                    sum(case when doctor.speciality = 'DEN'  and doctor.grade='C' then 1 else 0 end) s_den_c,
+
+                    sum(case when doctor.speciality = 'GE'  and doctor.grade='A' then 1 else 0 end) s_ge_a,
+                    sum(case when doctor.speciality = 'GE'  and doctor.grade='B' then 1 else 0 end) s_ge_b,
+                    sum(case when doctor.speciality = 'GE'  and doctor.grade='C' then 1 else 0 end) s_ge_c,
+
+                    sum(case when doctor.speciality = 'PUD'  and doctor.grade='A' then 1 else 0 end) s_pud_a,
+                    sum(case when doctor.speciality = 'PUD'  and doctor.grade='B' then 1 else 0 end) s_pud_b,
+                    sum(case when doctor.speciality = 'PUD'  and doctor.grade='C' then 1 else 0 end) s_pud_c,
+
+                    sum(case when doctor.speciality = 'GYN'  and doctor.grade='A' then 1 else 0 end) s_gyn_a,
+                    sum(case when doctor.speciality = 'GYN'  and doctor.grade='B' then 1 else 0 end) s_gyn_b,
+                    sum(case when doctor.speciality = 'GYN'  and doctor.grade='C' then 1 else 0 end) s_gyn_c,
+
+                    sum(case when doctor.speciality = 'RHU'  and doctor.grade='A' then 1 else 0 end) s_rhu_a,
+                    sum(case when doctor.speciality = 'RHU'  and doctor.grade='B' then 1 else 0 end) s_rhu_b,
+                    sum(case when doctor.speciality = 'RHU'  and doctor.grade='C' then 1 else 0 end) s_rhu_c,
+
+                    sum(case when doctor.speciality = 'ID'  and doctor.grade='A' then 1 else 0 end) s_id_a,
+                    sum(case when doctor.speciality = 'ID'  and doctor.grade='B' then 1 else 0 end) s_id_b,
+                    sum(case when doctor.speciality = 'ID'  and doctor.grade='C' then 1 else 0 end) s_id_c,
+                    sum(case when
+                      doctor.speciality = 'ORS' or
+                      doctor.speciality = 'GP' or
+                      doctor.speciality = 'IM' or
+                      doctor.speciality = 'S' or
+                      doctor.speciality = 'U' or
+                      doctor.speciality = 'N' or
+                      doctor.speciality = 'ON' or
+                      doctor.speciality = 'ENT' or
+                      doctor.speciality = 'DEN' or
+                      doctor.speciality = 'GE' or
+                      doctor.speciality = 'PUD' or
+                      doctor.speciality = 'GYN' or
+                      doctor.speciality = 'RHU' or
+                      doctor.speciality = 'ID'
+                       then 0 else 1 end) s_others
+                    FROM
+                    (SELECT area.name as area,list.cid
+                    from user
+                    join relations ON user.uid = relations.down
+                    join list on user.uid = list.uid
+                    JOIN customers on list.cid=customers.cid and customers.type=1
+                    JOIN area on customers.area = area.areaid
+                    WHERE user.Job = '1'
+                    And user.uid not in (4,2,43,21)) UserList
+                    JOIN doctor on UserList.cid = doctor.cid
+                    GROUP by UserList.area
+                    Order By UserList.area";
+                    }
+                  $teams = DB::connection('chiesi')->select($sql);
+                  $data['private_list_ana_byarea'] = $teams;
+                  $data['sql'] = $sql;
+                  return $data;
+
+
                 case "repoveralls":
                     if($company == 2){
-                        $sqlv = "SELECT fullname as `name`,governorate.name as governorate,
+
+                      if ($uid==0){
+                        $uid='relations.up and user.uid not in (0,21,2,4,43,75,74)';
+                      }
+
+                        $sqlv = "SELECT fullname as `name`,area as governorate,
                         visit_type.t1 as t1, visit_type.t2 as t2, visit_type.t3 as t3, visit_type.t_total as t_total,
                         s_ors,s_gp,s_im,s_s,s_u,s_n,s_on,s_ent,s_den,s_ge,s_pud,s_gyn,s_rhu,s_id,s_others,s_total
                         FROM nichepha_chiesi.user user
-                        join nichepha_chiesi.governorate governorate on user.gid=governorate.gid
                         Join nichepha_chiesi.relations relations on user.uid=relations.down and relations.up = $uid
                         left Join (SELECT uid,
                               count(c.type) t_total,
                               sum(case when c.type = 1 then 1 else 0 end) t1,
                               sum(case when c.type = 2 then 1 else 0 end) t2,
                               sum(case when c.type = 3 then 1 else 0 end) t3
-                              FROM nichepha_chiesi.visit visit
+                              FROM (select * from nichepha_chiesi.visit GROUP BY uid,cid,date(date)) visit
                               join nichepha_chiesi.customers c on visit.cid=c.cid
                               WHERE DATE(visit.date) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'
                               group by uid) visit_type on user.uid=visit_type.uid
@@ -315,7 +530,7 @@ class InsightsController extends Controller
                                 doctor.speciality = 'RHU' or
                                 doctor.speciality = 'ID'
                                  then 0 else 1 end) s_others
-                              FROM nichepha_chiesi.visit visit
+                              FROM (select * from nichepha_chiesi.visit GROUP BY uid,cid,date(date)) visit
                               join nichepha_chiesi.customers c on visit.cid = c.cid and c.type=1
                               join nichepha_chiesi.doctor doctor on visit.did = doctor.did
                               WHERE DATE(visit.date) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'
@@ -328,7 +543,7 @@ class InsightsController extends Controller
                   }
                   $visits = DB::select($sqlv);
                   $data['repoveralls'] = $visits;
-                  //$data['sql'] = $sqlv;
+                  $data['sql'] = $sqlv;
                   return $data;
 
                 case "repareas":
@@ -425,7 +640,7 @@ class InsightsController extends Controller
                                 doctor.speciality = 'RHU' or
                                 doctor.speciality = 'ID'
                                  then 0 else 1 end) s_others
-                              FROM nichepha_chiesi.visit visit
+                              FROM (select * from nichepha_chiesi.visit GROUP BY uid,cid,date(date)) visit
                               join nichepha_chiesi.customers c on visit.cid = c.cid and c.type=1
                               join nichepha_chiesi.doctor doctor on visit.did = doctor.did
                               WHERE DATE(visit.date) BETWEEN '{$request->Input('datefrom')}' and '{$request->Input('dateto')}'
@@ -459,7 +674,7 @@ class InsightsController extends Controller
 
 
         if($uid == 0){
-          $data['userData'][0] = json_decode(json_encode(array('name' => "General Statics", 'native_id' => 0)));
+          $data['userData'][0] = json_decode(json_encode(array('name' => "General Statistics And Reports", 'native_id' => 0)));
         }
 
 
