@@ -18,8 +18,28 @@ Class SupportController extends Controller{
   public function index($company){
     $data['company'] = $company;
     $reqs = App\CSRequest::with('company');
+    $native_id = Auth::user()->native_id;
+
     //if not cs >>> where here
+    //hint : collect suitable users using array_push
+    if($company == 2){
+      $reqs->where('company_id', 2);
+      $position = DB::connection('chiesi')->select("select * from user where uid={$native_id}")[0]->Job;
+      if($position == 1){
+        $reqs->where('user_id', Auth::user()->native_id);
+      }elseif ($position == 3) {
+        $visible_users = array(Auth::user()->native_id);
+
+        $visible_reps =  DB::connection('chiesi')->select("SELECT user.* FROM relations JOIN user on relations.down=user.uid where up=" . Auth::user()->native_id);
+        foreach ($visible_reps as $key => $value) {
+          array_push($visible_users, $value->uid);
+        }
+        $reqs->whereIn('user_id', $visible_users);
+      }
+    }
+
     $data['reqs'] = $reqs->get();
+    //return Auth::user()->native_id;
     return view('support.index', $data);
   }
 
