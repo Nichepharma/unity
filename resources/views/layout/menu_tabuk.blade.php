@@ -2,6 +2,11 @@
 $module = '';
 if (isset($data['modules']) && !empty($data['modules']))
     $module = $data['modules'];
+
+if(!isset($_GET['datefrom'])){
+  $_GET['datefrom']="";
+  $_GET['dateto']="";
+}
 ?>
 <nav class="mainmenubg" role="navigation">
     <div class="mainmenu">
