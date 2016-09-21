@@ -40,6 +40,10 @@ Route::post('/support/{company}', 'SupportController@postRequest');
 Route::get('/support/request/{company}/{id}', 'SupportController@getRequest');
 Route::post('/support/request/{company}/{id}', 'SupportController@postMessage');
 
+//List Routes
+Route::get('/list/{company}', 'ListController@index');
+Route::post('/list/{company}', 'ListController@postList');
+
 Route::get('/support/api/{company}/{type}', 'SupportController@api');
 
 Route::get('/home/tell-friend', function(){
