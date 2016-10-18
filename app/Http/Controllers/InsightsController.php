@@ -261,11 +261,11 @@ class InsightsController extends Controller
                   $data['teams_days'][7] = date('Y-m-d', strtotime($data['teams_days'][0] .' +1 day'));
 
                   if($company == 2){
-			
+
 			if ($uid==0){
-                        	$uid='relations.up and user.uid not in (0,21,2,4,43,75,74)';
+                        	$uid='relations.up and user.uid not in (0,21,2,4,43)';
                       	}
-			
+
                     $sql = "SELECT user.fullname,
                             replace(replace(replace(customers.type, 1, 'Private Market'), 2, 'Pharmacies'), 3, 'Hospital') as type,
                             count(visit.vid) as total,
@@ -481,7 +481,7 @@ class InsightsController extends Controller
                     if($company == 2){
 
                       if ($uid==0){
-                        $uid='relations.up and user.uid not in (0,21,2,4,43,75,74)';
+                        $uid='relations.up and user.uid not in (0,21,2,4,43)';
                       }
 
                         $sqlv = "SELECT fullname as `name`,area as governorate,
