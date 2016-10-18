@@ -106,3 +106,7 @@
       </tr>
     </tbody>
 </table>
+<div class="pull-left print-show">
+    <p><b>From:</b> </p>
+    <p><b>To:</b> </p>
+</div>
