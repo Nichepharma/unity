@@ -33,7 +33,7 @@ Class ListController extends Controller{
       $lists_reps = App\ListModel::whereIn('user_id', $reps_array)->with('company')->OrderBy('id');
       $data['lists'] = $lists_reps->union($lists)->get();
     }
-    //return view('list.index', $data);
+    return view('list.index', $data);
   }
 
   public function postList(Request $request, $company){
