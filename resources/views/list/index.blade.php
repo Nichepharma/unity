@@ -30,6 +30,7 @@ app.controller('gridCtrl', function($scope){
               <th>#</th>
               <th>Company</th>
               <th>List Type</th>
+              <th>Rep</th>
               <th>Uploaded Time</th>
               <th>Status</th>
             </tr>
@@ -49,18 +50,17 @@ app.controller('gridCtrl', function($scope){
               </th>
               <th></th>
               <th>
-                <select class="form-control"  ng-model="search_status">
-                  <option value="">- All -</option>
-                  <option ng-repeat="row in reqs | unique:'status'" value="[[row.status]]">[[row.status]]</option>
-                </select>
+              </th>
+              <th>
               </th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="row in reqs | filter:{company:{name: search_company}	, type: search_type,status: search_status}">
-              <td>[[row.id]]</td>
+              <td id=l[[row.id]]>[[row.id]]</td>
                 <td>[[row.company.name]]</td>
                 <td>[[row.type]]</td>
+                <td>[[row.user_name]]</td>
                 <td>[[row.created_at]]</td>
                 <td>[[row.status]]</td>
               </tr>
