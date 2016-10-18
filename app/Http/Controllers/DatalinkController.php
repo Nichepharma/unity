@@ -242,7 +242,7 @@ class DatalinkController extends Controller
                   // if(!ctype_digit($answers[$key])){
                   //   $answers[$key] = 0;
                   // }
-                  $answers[$key]++;
+                  //$answers[$key]++;
                }
                $evalanswer->answer = $answers[$key];
                $evalanswer->save();
