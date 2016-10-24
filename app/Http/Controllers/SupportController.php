@@ -38,6 +38,20 @@ Class SupportController extends Controller{
             }
             $reqs->whereIn('user_id', $visible_users);
           }
+    }elseif($company == 3){
+      $reqs->where('company_id', 3);
+      $position = DB::connection('dermazone')->select("SELECT * FROM `user` join role_user on user.id = role_user.user_id WHERE user.id={$native_id}")[0]->role_id;
+      if($position == 3){
+        $reqs->where('user_id', Auth::user()->native_id);
+      }elseif($position == 8 || $position == 9){
+        $visible_users = array(Auth::user()->native_id);
+
+        $visible_reps =  DB::connection('dermazone')->select("SELECT * FROM user_supervisor where super_id=" . Auth::user()->native_id);
+        foreach ($visible_reps as $key => $value) {
+          array_push($visible_users, $value->user_id);
+        }
+        $reqs->whereIn('user_id', $visible_users);
+      }
     }
 
     $data['reqs'] = $reqs->get();
