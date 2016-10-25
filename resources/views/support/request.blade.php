@@ -8,7 +8,12 @@
   <div class="row" align="center">
     <h2>{{$request->type}} Ticket with refrence number of #{{$request->id}} ({{$request->status}})</h2>
     <FORM>
-        <input type="button" value="Refresh" onClick="window.location.reload()">
+      <a type="button" href="http://tacitapp.com/unity/support/{{Auth::user()->company}}" class="btn btn-default">
+        <span class="glyphicon glyphicon-chevron-left"></span> Back
+      </a>
+      <button type="button" onClick="window.location.reload()" class="btn btn-default">
+        <span class="glyphicon glyphicon-refresh"></span> Refresh
+      </button>
   </FORM>
   </div>
   <div class="row">
