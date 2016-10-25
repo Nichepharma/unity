@@ -67,11 +67,11 @@ app.controller('gridCtrl', function($scope){
           </thead>
           <tbody>
             <tr ng-repeat="row in reqs | filter:{company:{name: search_company}	, type: search_type,status: search_status}">
-              <td><a href="request/2/[[row.id]]">[[row.id]]<a></td>
+              <td><a href="request/[[row.company_id]]/[[row.id]]">[[row.id]]<a></td>
                 <td>[[row.company.name]]</td>
                 <td>[[row.type]]</td>
                 <td>[[row.created_at]]</td>
-                <td><a href="request/2/[[row.id]]">[[row.status]]<a></td>
+                <td><a href="request/[[row.company_id]]/[[row.id]]">[[row.status]]<a></td>
               </tr>
             </tbody>
           </table>
