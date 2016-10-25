@@ -49,6 +49,8 @@
           @include('layout.menu_tabuk')
         @elseif ($company == 2)
           @include('layout.menu_chiesi')
+        @elseif ($company == 3)
+          @include('layout.menu_dermazone')
         @endif
     </div>
 
