@@ -168,7 +168,7 @@ function array_values_recursive($array)
                             <tr>
                                 <td>Message:</td>
                                 <td>
-                                    <textarea rows="6" cols="32" name="message" maxlength="50"></textarea>
+                                    <textarea rows="6" cols="32" name="message"></textarea>
                                 </td>
                             </tr>
                             <tr>
