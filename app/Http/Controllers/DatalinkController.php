@@ -173,12 +173,14 @@ class DatalinkController extends Controller
 
             $customers = explode("|", $data_iOS->customers);
             $dates = explode("|", $data_iOS->dates);
+            $times = explode("|", $data_iOS->times);
             foreach ($customers as $key => $customer) {
               $plan = new PlanVisit;
               $plan->company = $data_iOS->company;
               $plan->user_id = $user_id;
               $plan->customer_id = $customer;
               $plan->date = $dates[$key];
+              $plan->time = $times[$key];
               $plan->save();
             }
 
@@ -212,12 +214,14 @@ class DatalinkController extends Controller
 
             $reps = explode("|", $data_iOS->reps);
             $dates = explode("|", $data_iOS->dates);
+            $times = explode("|", $data_iOS->times);
             foreach ($reps as $key => $rep) {
               $plan = new PlanEval;
               $plan->company = $data_iOS->company;
               $plan->user_id = $user_id;
               $plan->rep_id = $rep;
               $plan->date = $dates[$key];
+              $plan->time = $times[$key];
               $plan->save();
             }
 
