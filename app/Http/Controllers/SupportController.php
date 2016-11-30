@@ -23,21 +23,33 @@ Class SupportController extends Controller{
     //if not cs >>> where here
     //hint : collect suitable users using array_push
     if($company == 1){
-      //Tabuk Code Goes Here
-    }elseif($company == 2){
-          $reqs->where('company_id', 2);
-          $position = DB::connection('chiesi')->select("select * from user where uid={$native_id}")[0]->Job;
-          if($position == 1){
-            $reqs->where('user_id', Auth::user()->native_id);
-          }elseif ($position == 3) {
-            $visible_users = array(Auth::user()->native_id);
+      $reqs->where('company_id', 1);
+      $position = DB::connection('tabuk')->select("select * from User where uid={$native_id}")[0]->JobTitle;
+      if($position == 'Sales Rep'){
+        $reqs->where('user_id', Auth::user()->native_id);
+      }elseif($position == 'SuperVisor'){
+        $visible_users = array(Auth::user()->native_id);
 
-            $visible_reps =  DB::connection('chiesi')->select("SELECT user.* FROM relations JOIN user on relations.down=user.uid where up=" . Auth::user()->native_id);
-            foreach ($visible_reps as $key => $value) {
-              array_push($visible_users, $value->uid);
-            }
-            $reqs->whereIn('user_id', $visible_users);
-          }
+        $visible_reps =  DB::connection('tabuk')->select("SELECT * FROM SuperReps where supid=" . Auth::user()->native_id);
+        foreach ($visible_reps as $key => $value) {
+          array_push($visible_users, $value->rid);
+        }
+        $reqs->whereIn('user_id', $visible_users);
+      }
+    }elseif($company == 2){
+      $reqs->where('company_id', 2);
+      $position = DB::connection('chiesi')->select("select * from user where uid={$native_id}")[0]->Job;
+      if($position == 1){
+        $reqs->where('user_id', Auth::user()->native_id);
+      }elseif ($position == 3) {
+        $visible_users = array(Auth::user()->native_id);
+
+        $visible_reps =  DB::connection('chiesi')->select("SELECT user.* FROM relations JOIN user on relations.down=user.uid where up=" . Auth::user()->native_id);
+        foreach ($visible_reps as $key => $value) {
+          array_push($visible_users, $value->uid);
+        }
+        $reqs->whereIn('user_id', $visible_users);
+      }
     }elseif($company == 3){
       $reqs->where('company_id', 3);
       $position = DB::connection('dermazone')->select("SELECT * FROM `user` join role_user on user.id = role_user.user_id WHERE user.id={$native_id}")[0]->role_id;
