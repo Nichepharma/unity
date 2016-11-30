@@ -25,6 +25,7 @@ Route::auth();
 //Evaluations Routes
 Route::get('/evals/{company}/{uid}', 'EvalController@index');
 Route::get('/eval/{company}/{sid}', 'EvalController@getEval');
+Route::get('/eval-charts/{company}', 'EvalController@getEvalCharts');
 
   //Plan Routes
 Route::get('/plan/{company}', 'PlanController@index');
