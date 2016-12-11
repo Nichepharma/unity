@@ -1,6 +1,7 @@
 @extends('layout.main')
 
 @section('content')
+
 <style>
 /* centered columns styles */
 .row-centered {
@@ -21,14 +22,23 @@
 
   <div class="row row-centered">
       <form class="form-inline">
-
         <div class="form-group">
           <label>Country : </label>
-          <select class="form-control" id="country">
+          <select class="form-control" id="country" onchange="getSupersAndReps();">
             <option selected disabled>Choose Here</option>
             @foreach($countries as $country)
             <option value="{{$country->regid}}">{{$country->region}}</option>
             @endforeach
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Supervisor : </label>
+          <select class="form-control" id="supervisor">
+            <option selected disabled>Choose Here</option>
+          </select>
+          <label>Sales Rep : </label>
+          <select class="form-control" id="rep">
+            <option selected disabled>Choose Here</option>
           </select>
         </div>
         <div class="form-group">
@@ -57,6 +67,17 @@
 
       </form>
   </div>
+  <!-- <div class="row row-centered">
+    <ol class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Library</a></li>
+      <li class="active">Data</li>
+    </ol>
+    <ol class="breadcrumb">
+      <li class="active">2016</li>
+      <li class="active">06</li>
+    </ol>
+  </div> -->
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
 
@@ -93,6 +114,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0/angular.min.js"></script>
 <script>
 var option = {
   animation: {
@@ -123,9 +145,61 @@ var myChart = new Chart(ctx, {
 @endforeach
 @endif
 </script>
+
+<script>
+  var myApp = angular.module('myApp', []);
+  myApp.config(function ($interpolateProvider) {
+      $interpolateProvider.startSymbol('[[');
+      $interpolateProvider.endSymbol(']]');
+  });
+  myApp.controller('gridCtrl', ['$scope', '$http', function($scope, $http) {
+    $scope.getSupersAndReps = function(regID){
+        $http({
+        method: 'GET',
+        url: 'http://tacitapp.com/unity/eval-charts/1?ajax=1&region=' + regID
+      }).then(function successCallback(response) {
+          $("#supervisor").replaceOptions(response.data.sups);
+          $("#rep").replaceOptions(response.data.reps);
+        }, function errorCallback(response) {
+          alert('Ajax Connection Error!');
+        });
+    }
+  }]);
+  </script>
+
 <script>
 function preview(){
-  window.location = '1?region=' + $("#country" ).val() + '&year=' + $("#year" ).val() + '&month=' + $("#month" ).val();
+  window.location = '1?region=' + $("#country" ).val() + '&year=' + $("#year" ).val() + '&month=' + $("#month" ).val()
+   + '&supervisor=' + $("#supervisor" ).val() + '&rep=' + $("#rep" ).val();
 }
+
+function getSupersAndReps(){
+var regID = $("#country").val();
+var scope = angular.element(document.getElementsByTagName("body")[0]).scope();
+scope.$apply(function () {
+  scope.getSupersAndReps(regID);
+});
+
+}
+
+(function($, window) {
+  $.fn.replaceOptions = function(options) {
+    var self, $option;
+
+    this.empty();
+    self = this;
+
+    $option = $("<option selected disabled>Choose Here</option>");
+    self.append($option);
+    $.each(options, function(index, option) {
+      $option = $("<option></option>")
+        .attr("value", option.value)
+        .text(option.text);
+      self.append($option);
+    });
+  };
+})(jQuery, window);
+
 </script>
+
 @endsection
