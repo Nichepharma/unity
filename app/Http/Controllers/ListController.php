@@ -266,7 +266,11 @@ Class ListController extends Controller{
             $list_new++;
           }else{
             //Adding the customer the the rep list
-            DB::connection('tabuk')->statement('INSERT INTO PharmRep (uid, phid) VALUES (' . Auth::user()->native_id . ", {$check_customer->get()[0]->phid})");
+            if($list->type == "Doctors"){
+              DB::connection('tabuk')->statement('INSERT INTO DoctorRep (uid, did) VALUES (' . Auth::user()->native_id . ", {$check_customer->get()[0]->did})");
+            }elseif($list->type == "Pharmacies"){
+              DB::connection('tabuk')->statement('INSERT INTO PharmRep (uid, phid) VALUES (' . Auth::user()->native_id . ", {$check_customer->get()[0]->phid})");
+            }
             $list_exist++;
           }
         }
