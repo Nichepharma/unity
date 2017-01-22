@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Auth\SessionGuard;
 use DB;
 use App;
 use Auth;
@@ -24,7 +25,7 @@ Class SupportController extends Controller{
     //hint : collect suitable users using array_push
     if($company == 1){
       $reqs->where('company_id', 1);
-      $position = DB::connection('tabuk')->select("select * from User where uid={$native_id}")[0]->JobTitle;
+      $position = DB::connection('tabuk')->select("SELECT * from User where uid={$native_id}")[0]->JobTitle;
       if($position == 'Sales Rep'){
         $reqs->where('user_id', Auth::user()->native_id);
       }elseif($position == 'SuperVisor'){
@@ -33,6 +34,23 @@ Class SupportController extends Controller{
         $visible_reps =  DB::connection('tabuk')->select("SELECT * FROM SuperReps where supid=" . Auth::user()->native_id);
         foreach ($visible_reps as $key => $value) {
           array_push($visible_users, $value->rid);
+        }
+        $reqs->whereIn('user_id', $visible_users);
+      }elseif($position == 'COUNTRY MANAGER' || 'DEPUTY MARKETING MANAGER' || 'SENIOR PRODUCT MANAGER'){
+        $visible_users = array(Auth::user()->native_id);
+
+        $username = SessionGuard::ParseCrossMaill(Auth::user()->email, "user");
+        $regions = DB::connection('tabuk')->select("SELECT * FROM User where UserName='{$username}'");
+        $region_sql_parms='(';
+        foreach ($regions as $key => $value) {
+          if($key != 0){$region_sql_parms .= ',';}
+          $region_sql_parms .= $value->region;
+        }
+        $region_sql_parms.=')';
+
+        $visible_reps =  DB::connection('tabuk')->select("SELECT * FROM User where region in " . $region_sql_parms);
+        foreach ($visible_reps as $key => $value) {
+          array_push($visible_users, $value->uid);
         }
         $reqs->whereIn('user_id', $visible_users);
       }
