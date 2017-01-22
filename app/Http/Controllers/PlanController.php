@@ -231,4 +231,51 @@ class PlanController extends Controller
         return View('plan/user_plan', $data);
     }
 
+    public function report($company, $uid){
+      $data['company'] = $company;
+      $data['uid'] = $uid;
+      if (Input::has('from')) {
+        $from = $_GET["from"];
+        $to = date('Y-m-d', strtotime($from. ' + 5 days'));
+
+        if ($_GET["t"] == 'report'){
+          $data['results'] = DB::select("SELECT date,time, 'kol' as type,cid, '' as kol_id,Fullname as name,speciality,'' as v_doctors,'' as v_pharms FROM `kol_visits`
+          JOIN nichepha_chiesi.doctor doctor on kol_visits.customer_id = doctor.cid
+          where company=2 and user_id={$uid}
+          and kol_visits.date between date('{$from}') and date('{$to}')
+
+          UNION ALL
+
+          SELECT date(date) as date,time,'eval' as type,'' as cid ,eval_sessions.id as kol_id, eval_sessions.rep_signature as name,'' as speciality
+          ,COALESCE(Sum(Case When q_id=47 Then answer End), 0) as v_doctors
+          ,COALESCE(Sum(Case When q_id=48 Then answer End), 0) as v_pharms
+          FROM `eval_sessions`
+          left join eval_ans on eval_sessions.id=eval_ans.eval_session_id and q_id in (47,48)
+          where company=2 and eval_sessions.supervisor_id={$uid}
+          and date(eval_sessions.date) between date('{$from}') and date('{$to}')
+          GROUP by eval_sessions.id");
+
+        }elseif($_GET["t"] == 'plan'){
+          $data['results'] = DB::select("SELECT date,time, 'plan_kol' as type,cid, Fullname as name,speciality FROM `plan_visit`
+          JOIN nichepha_chiesi.doctor doctor on plan_visit.customer_id = doctor.cid
+          where company=2 and user_id={$uid}
+          and plan_visit.date between date('{$from}') and date('{$to}')
+
+          UNION ALL
+
+          SELECT date,time, 'plan_eval' as type,uid, fullname as name,'' as speciality FROM `plan_eval`
+          JOIN nichepha_chiesi.user user on plan_eval.rep_id = user.uid
+          where company=2 and user_id={$uid}
+          and plan_eval.date between date('{$from}') and date('{$to}')");
+        }
+
+        //return $data;
+        return View('plan/user_report_content', $data);
+      }
+      if($company == 2){
+        $data['userData'] = DB::connection('chiesi')->table('user')->where(['uid' => $uid])->get(['fullname as name', 'uid as native_id']);
+      }
+      return View('plan/user_report', $data);
+    }
+
 }
