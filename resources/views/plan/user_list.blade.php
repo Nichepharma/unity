@@ -19,12 +19,12 @@
     }
     ?>
 
-  <div class='col-md-10 col-xs-12'>
+  <div class='col-xs-12'>
     <h2>Supervisors Plan</h2>
     <table class="table myTable">
         <thead>
         <tr>
-            <th><i class="glyphicon glyphicon-user blue"></i> Name: </th>
+          <th colspan="3"><i class="glyphicon glyphicon-user blue"></i> Supervisor </th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +33,8 @@
             <th scope='row'>
               <a href="/unity/plan/user-plan/{{$company}}/{{$user->uid}}">{{$user->name}}</a>
             </th>
+            <th><a href="/unity/plan/user-report/{{$company}}/{{$user->uid}}?t=plan"><i class="glyphicon glyphicon-list-alt blue"></i> Weekly Plan </a></th>
+            <th><a href="/unity/plan/user-report/{{$company}}/{{$user->uid}}?t=report"><i class="glyphicon glyphicon-list-alt blue"></i> Weekly Report </a></th>
           </tr>
           @endforeach
         </tbody>
