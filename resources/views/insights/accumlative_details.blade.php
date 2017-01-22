@@ -33,6 +33,7 @@
       <div class="col-md-2 col-xs-6">
           <button class="buttonallsite3" ng-class="{'active': activeTab=='teams'}" ng-click="showTeams()">Team's Weekly Report</button>
       </div>
+
     @else
       <div class="col-md-2 col-xs-6">
           <button class="buttonallsite3" ng-class="{'active': activeTab=='doctors'}" ng-click="showDoctors()">Visits</button>
