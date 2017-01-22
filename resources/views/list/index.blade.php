@@ -15,6 +15,7 @@ app.controller('gridCtrl', function($scope){
     <div class="jumbotron" align="center">
       <h1>Got a new customers list ?</h1>
       <p>Upload your new list now</p>
+      <!-- @if(date('j') <= 28) -->
       <form method="post" enctype="multipart/form-data" action="" class="form-horizontal">
         <div class="form-group">
           <label for="lst" class="col-sm-2 control-label"> Your File : </label>
@@ -34,6 +35,8 @@ app.controller('gridCtrl', function($scope){
           <input type="hidden" name="_token" value="{{csrf_token()}}">
           <button type="submit" class="btn btn-primary btn-lg">Upload List</button>
           <form>
+          <!-- @endif -->
+
           </div>
 
           <table class="table table-striped table-bordered">
