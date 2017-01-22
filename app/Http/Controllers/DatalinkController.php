@@ -233,6 +233,7 @@ class DatalinkController extends Controller
              'supervisor_signature' => SessionGuard::ParseCrossMaill($data_iOS->sup_signature, "user"),
              'rep_id' => $data_iOS->rep_id,
              'rep_signature' => $data_iOS->rep_signature,
+             'time' => $data_iOS->time,
              'date' => date("Y-m-d H:i:s", strtotime($data_iOS->date))])->id;
 
              $qus = explode("|", $data_iOS->qus);
@@ -243,10 +244,10 @@ class DatalinkController extends Controller
                $evalanswer->eval_session_id = $eval_id;
                $evalanswer->q_id = $qus[$key];
                if (in_array($evalanswer->q_id, array('45','46','47','48'))){
-                  // if(!ctype_digit($answers[$key])){
-                  //   $answers[$key] = 0;
-                  // }
-                  //$answers[$key]++;
+                  if(!ctype_digit($answers[$key])){
+                    $answers[$key] = 0;
+                  }
+                  $answers[$key]++;
                }
                $evalanswer->answer = $answers[$key];
                $evalanswer->save();
