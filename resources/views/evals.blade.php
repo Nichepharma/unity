@@ -5,6 +5,11 @@
   @include('others.print_buttons')
 
     <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h2><i class="glyphicon glyphicon-user"></i> {{ $userData[0]->name }} </h2>
+      </div>
+    </div>
+    <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
 
