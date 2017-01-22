@@ -201,39 +201,72 @@ class InsightsController extends Controller
                 return $data;
 
                 case "samples":
-                    if($company == 2){
-                        $sql_samples_products = "SELECT products.pname, sum(visitSample.number) as samples
-                        from nichepha_chiesi.visit visit
-                        join nichepha_chiesi.visitSample visitSample on visit.vid = visitSample.vid
-                        join nichepha_chiesi.products products on visitSample.pid = products.pid
-                        Where DATE(nichepha_chiesi.visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} '
-                        GROUP by visitSample.pid";
+                if($company == 1){
+                    $sql_samples_products = "SELECT products.pname, sum(visitSample.number) as samples
+                    from nichepha_chiesi.visit visit
+                    join nichepha_chiesi.visitSample visitSample on visit.vid = visitSample.vid
+                    join nichepha_chiesi.products products on visitSample.pid = products.pid
+                    Where DATE(nichepha_chiesi.visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} '
+                    GROUP by visitSample.pid";
 
-                        $sql_samples_products_customers = "SELECT products.pname,customertypes.type, sum(visitSample.number) as samples
-                        from nichepha_chiesi.visit visit
-                        join nichepha_chiesi.visitSample visitSample on visit.vid = visitSample.vid
-                        join nichepha_chiesi.customers customers on visit.cid = customers.cid
-                        join nichepha_chiesi.customertypes customertypes on customers.type = customertypes.typeid
-                        join nichepha_chiesi.products products on visitSample.pid = products.pid
-                        Where DATE(nichepha_chiesi.visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} '
-                        GROUP by visitSample.pid,customertypes.typeid";
+                    // $sql_samples_products_customers = "SELECT products.pname,customertypes.type, sum(visitSample.number) as samples
+                    // from nichepha_chiesi.visit visit
+                    // join nichepha_chiesi.visitSample visitSample on visit.vid = visitSample.vid
+                    // join nichepha_chiesi.customers customers on visit.cid = customers.cid
+                    // join nichepha_chiesi.customertypes customertypes on customers.type = customertypes.typeid
+                    // join nichepha_chiesi.products products on visitSample.pid = products.pid
+                    // Where DATE(nichepha_chiesi.visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} '
+                    // GROUP by visitSample.pid,customertypes.typeid";
+                    //
+                    // $sql_samples_sp = "SELECT v.pid,v.pname,doctor.speciality, sum(v.number) as samples from nichepha_chiesi.doctor
+                    // join (SELECT visit.vid,visit.cid,visitSample.number,visitSample.pid as pid,products.pname as pname
+                    // from nichepha_chiesi.visit
+                    // join nichepha_chiesi.visitSample on visit.vid = visitSample.vid
+                    // join nichepha_chiesi.products products on visitSample.pid = products.pid
+                    // WHERE DATE(nichepha_chiesi.visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} ') v on doctor.cid = v.cid
+                    // GROUP BY v.pid, doctor.speciality";
 
-                        $sql_samples_sp = "SELECT v.pid,v.pname,doctor.speciality, sum(v.number) as samples from nichepha_chiesi.doctor
-                        join (SELECT visit.vid,visit.cid,visitSample.number,visitSample.pid as pid,products.pname as pname
-                        from nichepha_chiesi.visit
-                        join nichepha_chiesi.visitSample on visit.vid = visitSample.vid
-                        join nichepha_chiesi.products products on visitSample.pid = products.pid
-                        WHERE DATE(nichepha_chiesi.visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} ') v on doctor.cid = v.cid
-                        GROUP BY v.pid, doctor.speciality";
+                    $sql_samples_rep = "SELECT user.fullname, sum(number) as samples
+                    FROM nichepha_chiesi.visit visit
+                    JOIN nichepha_chiesi.visitSample visitSample on visit.vid=visitSample.vid
+                    JOIN nichepha_chiesi.user user on visit.uid = user.uid
+                    WHERE DATE(visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} '
+                    AND number>0
+                    GROUP by visit.uid
+                    ORDER BY samples DESC";
+              }elseif($company == 2){
+                    $sql_samples_products = "SELECT products.pname, sum(visitSample.number) as samples
+                    from nichepha_chiesi.visit visit
+                    join nichepha_chiesi.visitSample visitSample on visit.vid = visitSample.vid
+                    join nichepha_chiesi.products products on visitSample.pid = products.pid
+                    Where DATE(nichepha_chiesi.visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} '
+                    GROUP by visitSample.pid";
 
-                        $sql_samples_rep = "SELECT user.fullname, sum(number) as samples
-                        FROM nichepha_chiesi.visit visit
-                        JOIN nichepha_chiesi.visitSample visitSample on visit.vid=visitSample.vid
-                        JOIN nichepha_chiesi.user user on visit.uid = user.uid
-                        WHERE DATE(visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} '
-                        AND number>0
-                        GROUP by visit.uid
-                        ORDER BY samples DESC";
+                    $sql_samples_products_customers = "SELECT products.pname,customertypes.type, sum(visitSample.number) as samples
+                    from nichepha_chiesi.visit visit
+                    join nichepha_chiesi.visitSample visitSample on visit.vid = visitSample.vid
+                    join nichepha_chiesi.customers customers on visit.cid = customers.cid
+                    join nichepha_chiesi.customertypes customertypes on customers.type = customertypes.typeid
+                    join nichepha_chiesi.products products on visitSample.pid = products.pid
+                    Where DATE(nichepha_chiesi.visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} '
+                    GROUP by visitSample.pid,customertypes.typeid";
+
+                    $sql_samples_sp = "SELECT v.pid,v.pname,doctor.speciality, sum(v.number) as samples from nichepha_chiesi.doctor
+                    join (SELECT visit.vid,visit.cid,visitSample.number,visitSample.pid as pid,products.pname as pname
+                    from nichepha_chiesi.visit
+                    join nichepha_chiesi.visitSample on visit.vid = visitSample.vid
+                    join nichepha_chiesi.products products on visitSample.pid = products.pid
+                    WHERE DATE(nichepha_chiesi.visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} ') v on doctor.cid = v.cid
+                    GROUP BY v.pid, doctor.speciality";
+
+                    $sql_samples_rep = "SELECT user.fullname, sum(number) as samples
+                    FROM nichepha_chiesi.visit visit
+                    JOIN nichepha_chiesi.visitSample visitSample on visit.vid=visitSample.vid
+                    JOIN nichepha_chiesi.user user on visit.uid = user.uid
+                    WHERE DATE(visit.date) BETWEEN ' {$request->Input('datefrom')} ' and ' {$request->Input('dateto')} '
+                    AND number>0
+                    GROUP by visit.uid
+                    ORDER BY samples DESC";
                   }
                   $samples_products = DB::select($sql_samples_products);
                   $samples_products_customers = DB::select($sql_samples_products_customers);
