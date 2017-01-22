@@ -32,6 +32,13 @@ class EvalController extends Controller
       ->get();
       $data['company'] = $company;
       $data['uid'] = $uid;
+
+      if($company == 1){
+        $data['userData'] = DB::connection('tabuk')->table('User')->where(['uid' => $uid])->get(['FullName as name', 'uid as native_id']);
+      }elseif($company == 2){
+        $data['userData'] = DB::connection('chiesi')->table('user')->where(['uid' => $uid])->get(['fullname as name', 'uid as native_id']);
+      }
+      
       return view('evals', $data);
   }
 
@@ -82,11 +89,6 @@ class EvalController extends Controller
       $data['cats_data'] = DB::select($sql);
     }
     $data['countries'] = DB::connection('tabuk')->select("SELECT * from regions where regid>0");
-
-    //User data (as texts)
-    $data['country']  = DB::connection('tabuk')->select("SELECT * from regions where regid={$_GET['region']}");
-    $data['supervisor']  = DB::connection('tabuk')->select("SELECT * from regions where regid={$_GET['region']}");
-    $data['rep']  = DB::connection('tabuk')->select("SELECT * from regions where regid={$_GET['region']}");
     return view('evalCharts', $data);
   }else{
     //Ajax Requests
