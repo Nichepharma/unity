@@ -1,16 +1,16 @@
 /*!
  * Start Bootstrap - The Big Picture HTML Template (http://startbootstrap.com)
  * Code licensed under the Apache License v2.0.
- * 
+ *
  **/
- 
+
  /** Important  **/
-body 
+body
 {margin-top: 0px;margin-bottom: 0px;background: none; color:#959393; line-height:21px; overflow-x:hidden;}
 
 body  .pagelogin
 {
-	background:url(../images/bg.jpg) no-repeat center;
+	background:url(http://tacitapp.com/unity/resources/assets/images/bg.jpg) no-repeat center;
 	background-attachment:fixed;
 	background-size:contain;
 }
@@ -21,19 +21,19 @@ body .page-head
 body .page-content
 {
 	 position:relative;margin:0px 20px 0px 20px !important;
-	 background:url(../images/bg2.jpg) no-repeat center;
+	 background:url(resources/assets/images/bg2.jpg) no-repeat center;
 	background-size:cover;
 	height:768px;
-	 
+
 }
 
 body .page-content2
 {
 	 position:relative;margin:0px 20px 0px 20px !important;
-	 background:url(../images/bg3.jpg) no-repeat center;
+	 background:url(resources/assets/images/bg3.jpg) no-repeat center;
 	background-size:cover;
 	height:768px;
-	 
+
 }
 
 body .page-content1
@@ -70,7 +70,7 @@ body .page-content1
 
 .leftpart a:hover
 {
-	background:url(../images/leftmenubg.png) no-repeat center center;
+	background:url(resources/assets/images/leftmenubg.png) no-repeat center center;
 	background-size:cover;
 	color:#fff;
     width: 106%;
@@ -78,7 +78,7 @@ body .page-content1
 
 .leftpart a.active
 {
-	background:url(../images/leftmenubg.png) no-repeat center center;
+	background:url(resources/assets/images/leftmenubg.png) no-repeat center center;
 	background-size:cover;
 	color:#fff;
     width: 106%;
@@ -135,7 +135,7 @@ body .page-content .container
 
 
 .fulllogin {
-	background:url(../images/bg.jpg) no-repeat top center;
+	background:url(http://tacitapp.com/unity/resources/assets/images/bg.jpg) no-repeat top center;
 	background-attachment:fixed;
 	background-size:cover;}
 
@@ -152,24 +152,24 @@ body .page-content .container
 
 
 @media all and (min-width: 992px){
-	
-	
-	
+
+
+
 	}
-	
-	
+
+
 @media all and (min-width: 992px) and (max-width: 1075px)
 {
-	
-	
+
+
 }
 @media all and (min-width: 220px) and (max-width: 991px)
 {
 
-	
+
 }
 @media all and (min-width: 769px) and (max-width: 991px){
-	
+
 
 
 }
@@ -503,7 +503,7 @@ background-color:#fff;
 
 @media all and (max-width: 1200px) and (min-width: 768px)
 {
-	
+
 .img-responsive,
 .thumbnail > img,
 .thumbnail a > img,
@@ -523,18 +523,18 @@ background-color:#fff;
 
 
 }
-	
+
 @media all and (max-width: 1600px) and (min-width: 1300px)
 {
 
-	
+
 }
-	
+
 @media all and (max-width: 1023px) and (min-width: 250px)
 {
 
 
-}	
+}
 
 
 .newsSELECT1{
@@ -655,7 +655,7 @@ box-shadow: 0 0 2px 2px #9e1521;
 
 .topuserpart
 {
-	
+
     font-family: 'neosansregular';
 	color:#666666;
 	font-size:15px;
@@ -698,7 +698,7 @@ box-shadow: 0 0 2px 2px #9e1521;
 
 @media all and (min-width: 480px) and (max-width: 822px)
 {
-	
+
 .page-login
 {
     /*left: 20% !important;*/
@@ -709,7 +709,7 @@ box-shadow: 0 0 2px 2px #9e1521;
 
 @media screen and (max-width: 480px)
 {
-	
+
 .page-login
 {
     /*left: 10% !important;*/
@@ -1081,7 +1081,7 @@ font-family: 'neosansregular';
 {
     text-align: center;
     vertical-align: middle !important;
-	border:1px solid #FFF !important;	
+	border:1px solid #FFF !important;
 }
 /*
 .close{float:right;font-size:21px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 0 #fff;}
@@ -1195,7 +1195,7 @@ table.table-condensed {
 .plantableheadclass
 {
     text-align: center;
-    vertical-align: middle !important;	
+    vertical-align: middle !important;
 }
 
 .planredcolor
@@ -1218,4 +1218,3 @@ table.table-condensed {
 	background-color:#dff0d8 !important;
 	padding:5px;
 }
-
