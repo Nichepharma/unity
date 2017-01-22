@@ -11,7 +11,7 @@
 |
 */
 
-use Hash;
+//use Hash;
 //Temporary Disable it
 Route::get('/', function () {
   	return "";
@@ -30,6 +30,7 @@ Route::get('/eval-charts/{company}', 'EvalController@getEvalCharts');
   //Plan Routes
 Route::get('/plan/{company}', 'PlanController@index');
 Route::get('/plan/user-plan/{company}/{uid}', 'PlanController@plan');
+Route::get('/plan/user-report/{company}/{uid}', 'PlanController@report');
 
 //Insights Routes
 Route::get('/insights/accumulative-details/{company}/{uid}', 'InsightsController@getAccumlativeDetails');
@@ -54,6 +55,6 @@ Route::get('/home/tell-friend', function(){
 Route::post('/home/tell-friend', function(){
   return view('others.tell_friend');
 });
-Route::get('/hash', function(){
-  return Hash::make("cs123");
-});
+// Route::get('/hash', function(){
+//   return Hash::make("cs123");
+// });
